@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>오픈마켓켓</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오픈마켓</title>
+
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/style.css">
+
 </head>
 <body>
-    
+  <header>
+    <h1>솜다람잡화점</h1>
+
+    <form action="/search" method="GET" role="search">
+    <label for="search" class="visually-hidden">상품 검색</label>
+    <input type="text" id="search" name="q" placeholder="상품을 검색해보세요">
+    <button type="submit">검색</button>
+    </form>
+
+  </header>
+
+
 </body>
 </html>
