@@ -1,18 +1,25 @@
 /* 검색 영역 스타일 */
 header {
+  position: relative;
   background-color: #f55d5d;
   height: 90px;        
   padding: 20px;
   top: 0;
+  
 }
 
 /* form 요소 자체를 container처럼 활용 */
+.container {
+  position: relative;
+  margin: 20px 300px; 
+}
 .search-form {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   justify-content: center;
   margin-top: 10px;
+  
 }
 
 .search-input {
@@ -21,20 +28,40 @@ header {
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  
 }
 
 .search-button {
   padding: 10px 16px;
   font-size: 16px;
-  background-color: #f23f4a;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.search-button:hover {
-  background-color: #d82f3a;
+.user-menu {
+  position: absolute;   
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.user-menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;  /* 🔹 수직 정렬 */
+  align-items: center;
+  font-size: 14px;
+}
+
+.user-menu img {
+  width: 24px;
+  height: 24px;
 }
 
 /* 스크린 리더 전용 숨김 텍스트 */
@@ -140,4 +167,19 @@ header {
 .product-card p {
   font-weight: bold;
   color: #f23f4a;
+}
+
+footer {
+  width: 1920px;
+  height: 280px;
+
+  background-color: #f0f0f0;
+}
+
+.footer-links ul {
+  list-style: none;
+  display: flex;            /* 가로 정렬 */
+  gap: 24px;                /* 항목 간 간격 */
+  padding: 0;
+  margin: 20px 330px; 
 }
