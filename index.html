@@ -13,14 +13,18 @@
 </head>
 <body>
   <header>
-    <h1>솜다람잡화점</h1>
-
-    <form action="/search" method="GET" role="search">
-    <label for="search" class="visually-hidden">상품 검색</label>
-    <input type="text" id="search" name="q" placeholder="상품을 검색해보세요">
-    <button type="submit">검색</button>
-    </form>
-
+    <div class="container">
+      <h1>솜다람잡화점</h1>
+      <form action="/search" method="GET" role="search">
+      <label for="search" class="visually-hidden">상품 검색</label>
+      <input type="text" id="search" name="q" placeholder="상품을 검색해보세요">
+      <button type="submit">검색</button>
+      </form>
+      <nav class="user-menu">
+        <a href="#" class="cart"><img src="./images/icon-shopping-cart.png" alt="">장바구니</a>
+        <a href="#" class="login"><img src="./images/icon-user.png" alt="">마이페이지</a>
+      </nav>
+    </div>
   </header>
 
   <section class="top-banner" aria-label="상단 배너 영역">
@@ -39,6 +43,34 @@
       <!-- JS로 상품 카드가 여기에 채워질 예정 -->
     </section>
   </main>
+
+  <footer>
+    <section class="footer-links">
+      <ul>
+        <li><a href="#">회사소개</a></li>
+        <li><a href="#">이용약관</a></li>
+        <li><a href="#">개인정보처리방침</a></li>
+        <li><a href="#">고객센터</a></li>
+      </ul>
+    </section>
+
+    <section class="footer-info">
+      <h2 class="visually-hidden">사이트 정보</h2>
+      <p>© 2025 솜다람잡화점 All rights reserved.</p>
+      <address>
+        대표: 박다솜 | 사업자등록번호: 123-45-67890<br>
+        서울특별시 마포구 어딘가 123 | 전화: 02-123-4567
+      </address>
+    </section>
+
+    <section class="footer-sns">
+    <ul>
+      <li><a href="#"><img src="images/icon-instagram.svg" alt="Instagram"></a></li>
+      <li><a href="#"><img src="images/icon-youtube.svg" alt="YouTube"></a></li>
+      <li><a href="#"><img src="images/icon-kakao.svg" alt="카카오채널"></a></li>
+    </ul>
+  </section>
+  </footer>
 
 </body>
 </html>
