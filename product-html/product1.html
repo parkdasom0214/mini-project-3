@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>덤보넘 게맨지 무릎 담요 - HODU</title>
+<link rel="stylesheet" href="../css/style.css">
+<head>
+<body>
+
+  <header id="header"></header>
+
+  <main class="container">
+      <!-- 상품 메인 섹션 -->
+      <section class="product-main">
+          <!-- 상품 이미지 -->
+          <figure class="product-image">
+              <img src="https://via.placeholder.com/600x600/ddd/666?text=Product+Image" alt="덤보넘 게맨지 무릎 담요" id="productImage">
+          </figure>
+          
+          <!-- 상품 정보 -->
+          
+              
+              <h1 class="product-title">덤보넘 게맨지 무릎 담요</h1>
+              
+              <section class="price-info">
+                  <span class="price" id="totalPrice">17,500</span>
+                  <span class="currency">원</span>
+              </section>
+              
+              <aside class="shipping-info">
+                  <span class="shipping-label">택배배송 / 무료배송</span>
+              </aside>
+              
+              <!-- 수량 선택 -->
+              <section class="quantity-section">
+                  <form class="quantity-controls">
+                      <button type="button" class="quantity-btn minus" id="minusBtn">-</button>
+                      <input type="number" class="quantity-input" id="quantityInput" value="1" min="1" max="999">
+                      <button type="button" class="quantity-btn plus" id="plusBtn">+</button>
+                  </form>
+              </section>
+              
+              <!-- 총 상품 금액 -->
+              <summary class="total-section">
+                  <section class="total-info">
+                      <span class="total-label">총 상품 금액</span>
+                      <section class="total-amount">
+                          <span class="total-quantity" id="totalQuantity">총 수량 1개</span>
+                          <span class="total-price" id="displayTotalPrice">17,500원</span>
+                      </section>
+                  </section>
+              </summary>
+              
+              <!-- 구매 버튼 -->
+              <section class="purchase-buttons">
+                  <button type="button" class="btn btn-buy" id="buyNowBtn">바로 구매</button>
+                  <button type="button" class="btn btn-cart" id="addToCartBtn">장바구니</button>
+              </section>
+          </article>
+      </section>
+      
+      <!-- 상품 상세 탭 -->
+      <section class="product-tabs">
+          <nav class="tab-menu">
+              <button type="button" class="tab-btn active" data-tab="detail">상세</button>
+              <button type="button" class="tab-btn" data-tab="review">리뷰</button>
+              <button type="button" class="tab-btn" data-tab="qna">Q&A</button>
+              <button type="button" class="tab-btn" data-tab="return">반품/교환정보</button>
+          </nav>
+          
+          <main class="tab-content">
+              <article class="tab-panel active" id="detail">
+                  <section class="detail-content">
+                      <p>상품 상세 정보가 여기에 표시됩니다.</p>
+                  </section>
+              </article>
+              
+              <article class="tab-panel" id="review">
+                  <section class="review-content">
+                      <p>상품 리뷰가 여기에 표시됩니다.</p>
+                  </section>
+              </article>
+              
+              <article class="tab-panel" id="qna">
+                  <section class="qna-content">
+                      <p>상품 Q&A가 여기에 표시됩니다.</p>
+                  </section>
+              </article>
+              
+              <article class="tab-panel" id="return">
+                  <section class="return-content">
+                      <p>반품/교환 정보가 여기에 표시됩니다.</p>
+                  </section>
+              </article>
+          </main>
+      </section>
+  </main>
+  
+  <script src="../js/product.js"></script>
+  <script>
+        // 헤더 로드
+        fetch('../header.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('header').innerHTML = html);
+  </script>
+
+</body>
+</html>
