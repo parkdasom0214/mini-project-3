@@ -30,7 +30,7 @@ const products = [
     category: "기타",
     price: 2000,
     image: "images/product4.jpg",
-    link: "./product-html/product2.html"
+    link: "./product-html/product1.html"
   }
   ,
   {
@@ -39,7 +39,7 @@ const products = [
     category: "엽서",
     price: 2000,
     image: "images/product5.jpg",
-    link: "./product-html/product2.html"
+    link: "./product-html/product1.html"
   }
   ,
   {
@@ -48,6 +48,6 @@ const products = [
   category: "체험",
   price: 15000,
   image: "images/product6.jpg",
-  link: "./product-html/product2.html"
+  link: "./product-html/product1.html"
   }
 ];

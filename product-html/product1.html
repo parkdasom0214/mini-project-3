@@ -1,109 +1,273 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>덤보넘 게맨지 무릎 담요 - HODU</title>
-<link rel="stylesheet" href="../css/style.css">
-<head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>솜다람 도토리 키링</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body class="bg-gray-50">
+    <header id="header"></header>
 
-  <header id="header"></header>
-
-  <main class="container">
-      <!-- 상품 메인 섹션 -->
-      <section class="product-main">
+    <!-- 메인 콘텐츠 -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <!-- 상품 정보 섹션 -->
+      <section class="bg-white rounded-lg p-8 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <!-- 상품 이미지 -->
-          <figure class="product-image">
-              <img src="https://via.placeholder.com/600x600/ddd/666?text=Product+Image" alt="덤보넘 게맨지 무릎 담요" id="productImage">
+          <figure class="flex justify-center">
+            <div
+              class="w-full aspect-square max-w-[600px] overflow-hidden rounded-lg shadow-sm"
+            >
+              <img
+                src="../images/product1.jpg"
+                alt="솜도리 도토리 키링"
+                class="w-full h-full object-cover object-center"
+              />
+            </div>
           </figure>
-          
-          <!-- 상품 정보 -->
-          
-              
-              <h1 class="product-title">덤보넘 게맨지 무릎 담요</h1>
-              
-              <section class="price-info">
-                  <span class="price" id="totalPrice">17,500</span>
-                  <span class="currency">원</span>
-              </section>
-              
-              <aside class="shipping-info">
-                  <span class="shipping-label">택배배송 / 무료배송</span>
-              </aside>
-              
-              <!-- 수량 선택 -->
-              <section class="quantity-section">
-                  <form class="quantity-controls">
-                      <button type="button" class="quantity-btn minus" id="minusBtn">-</button>
-                      <input type="number" class="quantity-input" id="quantityInput" value="1" min="1" max="999">
-                      <button type="button" class="quantity-btn plus" id="plusBtn">+</button>
-                  </form>
-              </section>
-              
-              <!-- 총 상품 금액 -->
-              <summary class="total-section">
-                  <section class="total-info">
-                      <span class="total-label">총 상품 금액</span>
-                      <section class="total-amount">
-                          <span class="total-quantity" id="totalQuantity">총 수량 1개</span>
-                          <span class="total-price" id="displayTotalPrice">17,500원</span>
-                      </section>
-                  </section>
-              </summary>
-              
-              <!-- 구매 버튼 -->
-              <section class="purchase-buttons">
-                  <button type="button" class="btn btn-buy" id="buyNowBtn">바로 구매</button>
-                  <button type="button" class="btn btn-cart" id="addToCartBtn">장바구니</button>
-              </section>
-          </article>
-      </section>
-      
-      <!-- 상품 상세 탭 -->
-      <section class="product-tabs">
-          <nav class="tab-menu">
-              <button type="button" class="tab-btn active" data-tab="detail">상세</button>
-              <button type="button" class="tab-btn" data-tab="review">리뷰</button>
-              <button type="button" class="tab-btn" data-tab="qna">Q&A</button>
-              <button type="button" class="tab-btn" data-tab="return">반품/교환정보</button>
-          </nav>
-          
-          <main class="tab-content">
-              <article class="tab-panel active" id="detail">
-                  <section class="detail-content">
-                      <p>상품 상세 정보가 여기에 표시됩니다.</p>
-                  </section>
-              </article>
-              
-              <article class="tab-panel" id="review">
-                  <section class="review-content">
-                      <p>상품 리뷰가 여기에 표시됩니다.</p>
-                  </section>
-              </article>
-              
-              <article class="tab-panel" id="qna">
-                  <section class="qna-content">
-                      <p>상품 Q&A가 여기에 표시됩니다.</p>
-                  </section>
-              </article>
-              
-              <article class="tab-panel" id="return">
-                  <section class="return-content">
-                      <p>반품/교환 정보가 여기에 표시됩니다.</p>
-                  </section>
-              </article>
-          </main>
-      </section>
-  </main>
-  
-  <script src="../js/product.js"></script>
-  <script>
-        // 헤더 로드
-        fetch('../header.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('header').innerHTML = html);
-  </script>
 
-</body>
+          <!-- 상품 정보 -->
+          <article class="space-y-6">
+            <!-- 판매자 정보 -->
+            <section class="text-sm text-gray-500">솜다람잡화점</section>
+
+            <!-- 상품명 -->
+            <h1 class="text-2xl font-semibold text-gray-900">
+              솜다람 도토리 키링
+            </h1>
+
+            <!-- 가격 -->
+            <section class="space-y-1">
+              <div class="text-3xl font-bold text-gray-900">
+                17,500<span class="text-lg font-normal">원</span>
+              </div>
+            </section>
+
+            <!-- 배송 정보 -->
+            <aside class="text-sm text-gray-600">택배배송 / 무료배송</aside>
+
+            <!-- 수량 선택 -->
+            <section class="space-y-2">
+              <div class="flex items-center">
+                <span class="text-sm text-gray-700 mr-4">수량</span>
+                <div class="flex items-center border border-gray-300 rounded">
+                  <button
+                    type="button"
+                    class="px-3 py-2 text-gray-600 hover:bg-gray-100"
+                    onclick="decreaseQuantity()"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    id="quantity"
+                    value="1"
+                    min="1"
+                    class="w-16 text-center py-2 border-l border-r border-gray-300 focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    class="px-3 py-2 text-gray-600 hover:bg-gray-100"
+                    onclick="increaseQuantity()"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <!-- 총 가격 정보: summary → section -->
+            <section class="bg-gray-50 p-4 rounded-lg">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-700">총 상품 금액</span>
+                <div class="text-right">
+                  <div class="text-sm text-gray-500" id="totalQuantity">
+                    총 수량 1개
+                  </div>
+                  <div
+                    class="text-2xl font-bold text-green-500"
+                    id="totalPrice"
+                  >
+                    17,500원
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 구매 버튼 -->
+            <section class="flex space-x-3">
+              <button
+                class="flex-1 bg-green-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-600 transition-colors"
+              >
+                바로 구매
+              </button>
+              <button
+                class="flex-1 bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+              >
+                장바구니
+              </button>
+            </section>
+          </article>
+        </div>
+      </section>
+
+      <!-- 상품 상세 탭 -->
+      <section class="bg-white rounded-lg">
+        <!-- 탭 메뉴 -->
+        <nav class="border-b">
+          <div class="flex justify-center">
+            <button
+              class="px-6 py-4 text-sm font-medium text-green-500 border-b-2 border-green-500 tab-btn active"
+              data-tab="detail"
+              onclick="switchTab('detail', this)"
+            >
+              상세
+            </button>
+            <button
+              class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 tab-btn"
+              data-tab="review"
+              onclick="switchTab('review', this)"
+            >
+              리뷰
+            </button>
+            <button
+              class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 tab-btn"
+              data-tab="qna"
+              onclick="switchTab('qna', this)"
+            >
+              Q&A
+            </button>
+            <button
+              class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 tab-btn"
+              data-tab="return"
+              onclick="switchTab('return', this)"
+            >
+              반품/교환정보
+            </button>
+          </div>
+        </nav>
+
+        <!-- 탭 콘텐츠 -->
+        <section class="p-8">
+          <article id="detail" class="tab-content">
+            <section class="space-y-4">
+              <h3 class="text-lg font-semibold">상품 상세 정보</h3>
+              <p class="text-gray-700">상품 상세 정보가 여기에 표시됩니다.</p>
+            </section>
+          </article>
+
+          <article id="review" class="tab-content hidden">
+            <section class="space-y-4">
+              <h3 class="text-lg font-semibold">상품 리뷰</h3>
+              <p class="text-gray-700">상품 리뷰가 여기에 표시됩니다.</p>
+            </section>
+          </article>
+
+          <article id="qna" class="tab-content hidden">
+            <section class="space-y-4">
+              <h3 class="text-lg font-semibold">상품 Q&A</h3>
+              <p class="text-gray-700">상품 Q&A가 여기에 표시됩니다.</p>
+            </section>
+          </article>
+
+          <article id="return" class="tab-content hidden">
+            <section class="space-y-4">
+              <h3 class="text-lg font-semibold">반품/교환 정보</h3>
+              <p class="text-gray-700">반품/교환 정보가 여기에 표시됩니다.</p>
+            </section>
+          </article>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      // 수량 증가 함수
+      function increaseQuantity() {
+        const quantityInput = document.getElementById("quantity");
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+        updateTotalPrice();
+      }
+
+      // 수량 감소 함수
+      function decreaseQuantity() {
+        const quantityInput = document.getElementById("quantity");
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+          updateTotalPrice();
+        }
+      }
+
+      // 총 가격 업데이트
+      function updateTotalPrice() {
+        const quantity = parseInt(document.getElementById("quantity").value);
+        const unitPrice = 17500;
+        const totalPrice = quantity * unitPrice;
+
+        document.getElementById(
+          "totalQuantity"
+        ).textContent = `총 수량 ${quantity}개`;
+        document.getElementById(
+          "totalPrice"
+        ).textContent = `${totalPrice.toLocaleString()}원`;
+      }
+
+      // 수정된 탭 전환 함수
+      function switchTab(tabName, buttonElement) {
+        // 모든 탭 콘텐츠 숨기기
+        const tabContents = document.querySelectorAll(".tab-content");
+        tabContents.forEach((content) => content.classList.add("hidden"));
+
+        // 모든 탭 버튼 비활성화 (기존 active 클래스들 제거)
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        tabButtons.forEach((button) => {
+          button.classList.remove(
+            "text-green-500",
+            "border-b-2",
+            "border-green-500",
+            "active"
+          );
+          button.classList.add("text-gray-500");
+        });
+
+        // 선택된 탭 콘텐츠 보이기
+        document.getElementById(tabName).classList.remove("hidden");
+
+        // 선택된 탭 버튼 활성화
+        buttonElement.classList.remove("text-gray-500");
+        buttonElement.classList.add(
+          "text-green-500",
+          "border-b-2",
+          "border-green-500",
+          "active"
+        );
+      }
+
+      // 수량 입력 필드 변경 시 총 가격 업데이트
+      document
+        .getElementById("quantity")
+        .addEventListener("input", updateTotalPrice);
+    </script>
+
+    <script>
+      // 헤더 로드
+      fetch("/header.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("header").innerHTML = html;
+        });
+    </script>
+
+    <script>
+      fetch("/header.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("header").innerHTML = html;
+        });
+    </script>
+  </body>
 </html>
