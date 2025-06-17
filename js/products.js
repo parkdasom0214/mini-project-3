@@ -5,7 +5,7 @@ const products = [
     category: "키링",
     price: 10000,
     image: "images/product1.jpg",
-    link: "product1.html"
+    link: "./product-html/product1.html"
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ const products = [
     category: "문구",
     price: 3000,
     image: "images/product2.jpg",
-    link: "product2.html"
+    link: "./product-html/product1.html"
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ const products = [
     category: "키링",
     price: 16000,
     image: "images/product3.jpg",
-    link: "product3.html"
+    link: "./product-html/product1.html"
   }
   ,
   {
@@ -30,7 +30,7 @@ const products = [
     category: "기타",
     price: 2000,
     image: "images/product4.jpg",
-    link: "product4.html"
+    link: "./product-html/product2.html"
   }
   ,
   {
@@ -39,7 +39,7 @@ const products = [
     category: "엽서",
     price: 2000,
     image: "images/product5.jpg",
-    link: "product5.html"
+    link: "./product-html/product2.html"
   }
   ,
   {
@@ -48,6 +48,6 @@ const products = [
   category: "체험",
   price: 15000,
   image: "images/product6.jpg",
-  link: "product6.html"
+  link: "./product-html/product2.html"
   }
 ];
