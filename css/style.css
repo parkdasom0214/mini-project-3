@@ -11,7 +11,11 @@ header {
 /* form 요소 자체를 container처럼 활용 */
 .container {
   position: relative;
+<<<<<<< HEAD
   margin: 20px 17%; 
+=======
+  margin: 20px 300px; 
+>>>>>>> e5058474dcebbc4a84e06e3d408672b89823fc94
 }
 .search-form {
   display: inline-flex;
@@ -181,5 +185,9 @@ footer {
   display: flex;            /* 가로 정렬 */
   gap: 24px;                /* 항목 간 간격 */
   padding: 0;
+
   margin: 20px 17%; 
+
+  margin: 20px 330px; 
+
 }
