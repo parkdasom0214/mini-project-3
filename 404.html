@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU - 페이지를 찾을 수 없습니다</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes bounce-slow {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .bounce-slow {
+            animation: bounce-slow 2s infinite;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fade-in 0.6s ease-out;
+        }
+
+        .fade-in-delay {
+            animation: fade-in 0.6s ease-out 0.2s both;
+        }
+
+        .fade-in-delay-2 {
+            animation: fade-in 0.6s ease-out 0.4s both;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center px-4">
+    <!-- 로고 -->
+    <div class="text-6xl font-bold text-green-500 mb-8 fade-in">HODU</div>
+    
+    <!-- 404 컨테이너 -->
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md text-center fade-in-delay">
+        <!-- 404 일러스트 -->
+        <div class="mb-8">
+            <div class="mx-auto w-32 h-24 border-4 border-green-500 rounded-lg flex items-center justify-center relative bounce-slow">
+                <div class="text-4xl font-bold text-green-500">404</div>
+                <!-- 화면 스탠드 -->
+                <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-16 h-4 bg-green-500 rounded-full"></div>
+                <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-8 h-2 bg-green-500 rounded"></div>
+            </div>
+        </div>
+
+        <!-- 메시지 -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">페이지를 찾을 수 없습니다.</h2>
+            <p class="text-sm text-gray-600 leading-relaxed">
+                페이지가 존재하지 않거나 사용할 수 없는 페이지입니다.<br>
+                웹 주소가 올바른지 확인해 주세요.
+            </p>
+        </div>
+
+        <!-- 버튼들 -->
+        <div class="space-y-3 fade-in-delay-2">
+            <button 
+                onclick="goHome()"
+                class="w-full py-3 bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-600 transition-colors duration-200"
+            >
+                메인으로
+            </button>
+            <button 
+                onclick="goBack()"
+                class="w-full py-3 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors duration-200"
+            >
+                이전 페이지
+            </button>
+        </div>
+    </div>
+
+    <!-- 추가 도움말 -->
+    <div class="mt-8 text-center text-sm text-gray-500 fade-in-delay-2">
+        <p>문제가 지속되면 고객센터로 문의해 주세요.</p>
+        <div class="mt-2 space-x-4">
+            <a href="tel:1588-0000" class="text-green-500 hover:text-green-600 transition-colors">
+                📞 1588-0000
+            </a>
+            <a href="mailto:help@hodu.co.kr" class="text-green-500 hover:text-green-600 transition-colors">
+                ✉️ help@hodu.co.kr
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function goHome() {
+            window.location.href = '/';
+        }
+
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                goHome();
+            }
+        }
+
+        // 키보드 내비게이션 지원
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.tagName === 'BUTTON') {
+                    focusedElement.click();
+                }
+            }
+            
+            if (e.key === 'Escape') {
+                goHome();
+            }
+        });
+
+        // 페이지 로드 시 메인 버튼에 포커스
+        document.addEventListener('DOMContentLoaded', function() {
+            const mainButton = document.querySelector('button[onclick="goHome()"]');
+            if (mainButton) {
+                mainButton.focus();
+            }
+        });
+
+        // 접근성을 위한 음성 안내
+        if ('speechSynthesis' in window) {
+            setTimeout(() => {
+                const utterance = new SpeechSynthesisUtterance('페이지를 찾을 수 없습니다. 메인으로 이동하거나 이전 페이지로 돌아가세요.');
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8;
+                utterance.volume = 0.3;
+                window.speechSynthesis.speak(utterance);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
