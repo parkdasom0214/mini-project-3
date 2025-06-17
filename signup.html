@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODU 회원가입</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 추가 커스텀 스타일 */
+        .dropdown-arrow::after {
+            content: '▼';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #9CA3AF;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center py-8 px-4">
+    <!-- 로고 -->
+    <div class="text-6xl font-bold text-green-500 mb-12">HODU</div>
+    
+    <!-- 회원가입 컨테이너 -->
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg">
+        <!-- 탭 메뉴 -->
+        <div class="flex border border-gray-300 rounded-lg overflow-hidden mb-8">
+            <button 
+                class="flex-1 py-4 px-6 text-sm font-medium bg-white text-gray-800 border-r border-gray-300 tab-btn active"
+                onclick="switchTab(this)"
+                data-tab="buyer"
+            >
+                구매회원가입
+            </button>
+            <button 
+                class="flex-1 py-4 px-6 text-sm font-medium bg-gray-100 text-gray-600 tab-btn"
+                onclick="switchTab(this)"
+                data-tab="seller"
+            >
+                판매회원가입
+            </button>
+        </div>
+        
+        <!-- 회원가입 폼 -->
+        <form class="space-y-6">
+            <!-- 아이디 -->
+            <div>
+                <label class="block text-sm text-gray-600 mb-2">아이디</label>
+                <div class="flex gap-2">
+                    <input 
+                        type="text" 
+                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-green-500"
+                        placeholder=""
+                        required
+                    >
+                    <button 
+                        type="button" 
+                        class="px-6 py-3 bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-600 transition-colors whitespace-nowrap"
+                    >
+                        중복확인
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 비밀번호 -->
+            <div>
+                <label class="block text-sm text-gray-600 mb-2">비밀번호</label>
+                <input 
+                    type="password" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-green-500"
+                    placeholder=""
+                    required
+                >
+            </div>
+            
+            <!-- 비밀번호 재확인 -->
+            <div>
+                <label class="block text-sm text-gray-600 mb-2">비밀번호 재확인</label>
+                <input 
+                    type="password" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-green-500"
+                    placeholder=""
+                    required
+                >
+            </div>
+            
+            <!-- 이름 -->
+            <div>
+                <label class="block text-sm text-gray-600 mb-2">이름</label>
+                <input 
+                    type="text" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-green-500"
+                    placeholder=""
+                    required
+                >
+            </div>
+            
+            <!-- 휴대폰번호 -->
+            <div>
+                <label class="block text-sm text-gray-600 mb-2">휴대폰번호</label>
+                <div class="flex gap-2">
+                    <!-- 첫 번째 셀렉트 박스 -->
+                    <div class="relative">
+                        <select class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-3 pr-10 text-sm focus:outline-none focus:border-green-500 cursor-pointer min-w-[80px]">
+                            <option value="010">010</option>
+                            <option value="011">011</option>
+                            <option value="016">016</option>
+                            <option value="017">017</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-2 flex items-center pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- 중간 번호 -->
+                    <input 
+                        type="tel" 
+                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-green-500"
+                        placeholder=""
+                        maxlength="4"
+                        required
+                    >
+                    
+                    <!-- 마지막 번호 -->
+                    <input 
+                        type="tel" 
+                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-green-500"
+                        placeholder=""
+                        maxlength="4"
+                        required
+                    >
+                </div>
+            </div>
+            
+            <!-- 약관 동의 -->
+            <div class="pt-4">
+                <div class="flex items-start gap-3">
+                    <input 
+                        type="checkbox" 
+                        id="terms" 
+                        class="mt-1 w-4 h-4 text-green-500 border-gray-300 rounded focus:ring-green-500"
+                        required
+                    >
+                    <label for="terms" class="text-sm text-gray-600 leading-relaxed">
+                        호두샵의 <span class="text-green-500 underline cursor-pointer">이용약관</span> 및 <span class="text-green-500 underline cursor-pointer">개인정보처리방침</span>에 대한 내용을 확인하였고 동의합니다.
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 가입하기 버튼 -->
+            <div class="pt-6">
+                <button 
+                    type="submit" 
+                    class="w-full py-4 bg-gray-400 text-white text-base font-medium rounded-lg transition-colors duration-200"
+                    id="signupButton"
+                    disabled
+                >
+                    가입하기
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 탭 전환 기능
+        function switchTab(clickedTab) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            
+            tabs.forEach(tab => {
+                tab.classList.remove('bg-white', 'text-gray-800');
+                tab.classList.add('bg-gray-100', 'text-gray-600');
+            });
+            
+            clickedTab.classList.remove('bg-gray-100', 'text-gray-600');
+            clickedTab.classList.add('bg-white', 'text-gray-800');
+        }
+
+        // 폼 유효성 검사 및 버튼 활성화
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const signupButton = document.getElementById('signupButton');
+            const inputs = form.querySelectorAll('input[required]');
+            const termsCheckbox = document.getElementById('terms');
+            
+            function checkFormValidity() {
+                let isValid = true;
+                
+                // 모든 필수 입력 필드 확인
+                inputs.forEach(input => {
+                    if (input.type === 'checkbox') return; // 체크박스는 별도 처리
+                    if (!input.value.trim()) {
+                        isValid = false;
+                    }
+                });
+                
+                // 약관 동의 확인
+                if (!termsCheckbox.checked) {
+                    isValid = false;
+                }
+                
+                // 버튼 스타일 변경
+                if (isValid) {
+                    signupButton.classList.remove('bg-gray-400');
+                    signupButton.classList.add('bg-green-500', 'hover:bg-green-600');
+                    signupButton.disabled = false;
+                } else {
+                    signupButton.classList.remove('bg-green-500', 'hover:bg-green-600');
+                    signupButton.classList.add('bg-gray-400');
+                    signupButton.disabled = true;
+                }
+            }
+            
+            // 입력 필드 이벤트 리스너
+            inputs.forEach(input => {
+                if (input.type !== 'checkbox') {
+                    input.addEventListener('input', checkFormValidity);
+                }
+            });
+            
+            // 체크박스 이벤트 리스너
+            termsCheckbox.addEventListener('change', checkFormValidity);
+            
+            // 중복확인 버튼 기능
+            const duplicateCheckBtn = document.querySelector('button[type="button"]');
+            duplicateCheckBtn.addEventListener('click', function() {
+                const idInput = this.parentElement.querySelector('input');
+                if (idInput.value.trim()) {
+                    alert('사용 가능한 아이디입니다.');
+                } else {
+                    alert('아이디를 입력해주세요.');
+                }
+            });
+            
+            // 폼 제출 처리
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const activeTab = document.querySelector('.tab-btn.bg-white').dataset.tab;
+                alert(`${activeTab === 'buyer' ? '구매회원' : '판매회원'} 가입이 완료되었습니다!`);
+            });
+            
+            // 초기 상태 설정
+            checkFormValidity();
+        });
+    </script>
+</body>
+</html>

@@ -12,20 +12,8 @@
 
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>솜다람잡화점</h1>
-      <form action="/search" method="GET" role="search">
-      <label for="search" class="visually-hidden">상품 검색</label>
-      <input type="text" id="search" name="q" placeholder="상품을 검색해보세요">
-      <button type="submit">검색</button>
-      </form>
-      <nav class="user-menu">
-        <a href="#" class="cart"><img src="./images/icon-shopping-cart.png" alt="">장바구니</a>
-        <a href="#" class="login"><img src="./images/icon-user.png" alt="">마이페이지</a>
-      </nav>
-    </div>
-  </header>
+
+  <header id="header"></header>
 
   <section class="top-banner" aria-label="상단 배너 영역">
     <button class="arrow left">&#10094;</button>
@@ -71,6 +59,13 @@
     </ul>
   </section>
   </footer>
+
+  <script>
+        // 헤더 로드
+        fetch('header.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('header').innerHTML = html);
+  </script>
 
 </body>
 </html>
