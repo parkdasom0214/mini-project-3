@@ -1,3 +1,5 @@
+
+
 // DOM 로드 완료 후 실행
 document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.tab');
@@ -160,4 +162,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // 입력 필드 포커스 시 에러 메시지 제거
     userIdInput.addEventListener('focus', clearLoginError);
     passwordInput.addEventListener('focus', clearLoginError);
+});
+
+//로그인시 이전페이지로 이동 로직
+document.getElementById('login-btn').addEventListener('click', async () => {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectTo = urlParams.get('redirect') || '/';
+
+  const response = await fetch('https://api.wenivops.co.kr/services/open-market/accounts/login/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    localStorage.setItem('accessToken', data.access);
+    localStorage.setItem('refreshToken', data.refresh);
+    window.location.href = redirectTo;
+  } else {
+    alert(data.error || '로그인 실패');
+  }
 });
