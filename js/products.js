@@ -28,6 +28,10 @@
             const productCard = document.createElement("div");
             productCard.className = "product-card";
 
+            // ✅ 여기 2줄만 추가
+            productCard.setAttribute("data-product-id", product.id);
+            productCard.style.cursor = "pointer";
+
             // 상품 정보를 카드 형태로 작성
             productCard.innerHTML = `
           <div class="product-image">
@@ -38,6 +42,12 @@
             <p class="product-price">${product.price.toLocaleString()}원</p>
           </div>
         `;
+
+          // ✅ 여기 4줄만 추가
+          productCard.addEventListener("click", function() {
+            const productId = this.getAttribute("data-product-id");
+            window.location.href = `../detail.html?id=${productId}`;
+          });
 
             // 생성한 상품 카드를 product-list 섹션에 추가
             productList.appendChild(productCard);
