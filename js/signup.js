@@ -194,7 +194,7 @@ function setupRealTimeValidation(form) {
   });
 }
 
-// 중복 확인
+// 중복 확인 (임시 - 실제 중복확인 API가 없는 경우)
 async function checkDuplicate(username, button) {
   if (!username.trim()) {
     alert('아이디를 입력해주세요.');
@@ -210,28 +210,43 @@ async function checkDuplicate(username, button) {
   button.textContent = '확인중...';
 
   try {
-    // 실제 중복 확인 API 호출
-    const response = await fetch(`${baseUrl}accounts/buyer/signup/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: username,
-        password: 'temp123',
-        name: 'temp',
-        phone_number: '01012345678'
-      })
-    });
-
-    const data = await response.json();
+    // 임시 중복 확인 로직 (실제 API 대신)
+    // 개발 단계에서는 단순히 성공으로 처리
+    await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 대기 (로딩 시뮬레이션)
     
-    if (response.status === 400 && data.username) {
+    // 임시: 특정 아이디들은 중복으로 처리
+    const duplicateIds = ['admin', 'test', 'user', 'hodu'];
+    
+    if (duplicateIds.includes(username.toLowerCase())) {
       alert('이미 사용중인 아이디입니다.');
     } else {
       alert('사용 가능한 아이디입니다.');
     }
+
+    /* 
+    // 실제 중복확인 API가 있다면 이렇게 사용:
+    const response = await fetch(`${baseUrl}accounts/check-username/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username })
+    });
+
+    const data = await response.json();
+    
+    if (response.ok) {
+      if (data.is_available) {
+        alert('사용 가능한 아이디입니다.');
+      } else {
+        alert('이미 사용중인 아이디입니다.');
+      }
+    } else {
+      throw new Error('중복 확인 실패');
+    }
+    */
+    
   } catch (error) {
     console.error('중복 확인 오류:', error);
-    alert('중복 확인 중 오류가 발생했습니다.');
+    alert('중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
   } finally {
     button.disabled = false;
     button.textContent = '중복확인';
