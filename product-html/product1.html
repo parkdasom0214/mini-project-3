@@ -274,7 +274,7 @@
 
       // 로그인 페이지로 이동
       function goToLogin() {
-        window.location.href = "../login.html"; // 실제 로그인 페이지 경로로 변경
+        window.location.href = "/login"; // 실제 로그인 페이지 경로로 변경
       }
 
       // 모달 외부 클릭시 닫기
@@ -285,6 +285,16 @@
             closeLoginModal();
           }
         });
+
+      // ESC 키로 모달 닫기
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" || e.keyCode === 27) {
+          const modal = document.getElementById("loginModal");
+          if (!modal.classList.contains("hidden")) {
+            closeLoginModal();
+          }
+        }
+      });
 
       // 기존 함수들
       // 수량 증가 함수
