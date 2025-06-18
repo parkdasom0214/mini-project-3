@@ -325,31 +325,68 @@ async function submitSignup(formData, userType) {
 async function autoLogin(username, password, userType) {
   try {
     console.log('🔄 자동 로그인 시도 중...');
+    console.log('로그인 정보:', { username, userType });
     
-    const loginData = {
-      username: username,
-      password: password,
-      login_type: userType.toUpperCase() // 'BUYER' 또는 'SELLER'
-    };
+    // 여러 가지 로그인 API 형식 시도
+    const loginAttempts = [
+      // 시도 1: login_type 필드 사용
+      {
+        username: username,
+        password: password,
+        login_type: userType.toUpperCase()
+      },
+      // 시도 2: user_type 필드 사용
+      {
+        username: username,
+        password: password,
+        user_type: userType.toUpperCase()
+      },
+      // 시도 3: 기본 로그인 (필드 없음)
+      {
+        username: username,
+        password: password
+      }
+    ];
 
-    const response = await fetch(`${baseUrl}accounts/login/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(loginData)
-    });
+    let loginSuccess = false;
+    let loginResult = null;
 
-    if (!response.ok) {
-      throw new Error('자동 로그인 실패');
+    for (let i = 0; i < loginAttempts.length; i++) {
+      console.log(`🔄 로그인 시도 ${i + 1}:`, loginAttempts[i]);
+      
+      try {
+        const response = await fetch(`${baseUrl}accounts/login/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(loginAttempts[i])
+        });
+
+        console.log(`📡 로그인 응답 ${i + 1}:`, response.status);
+
+        if (response.ok) {
+          loginResult = await response.json();
+          console.log('✅ 자동 로그인 성공:', loginResult);
+          loginSuccess = true;
+          break;
+        } else {
+          const errorData = await response.json();
+          console.log(`❌ 로그인 시도 ${i + 1} 실패:`, errorData);
+        }
+      } catch (error) {
+        console.log(`🚨 로그인 시도 ${i + 1} 네트워크 오류:`, error);
+      }
     }
 
-    const loginResult = await response.json();
-    console.log('✅ 자동 로그인 성공:', loginResult);
+    if (!loginSuccess) {
+      throw new Error('모든 로그인 시도 실패');
+    }
 
     // 토큰 저장 (localStorage에 저장)
     if (loginResult.token) {
       localStorage.setItem('authToken', loginResult.token);
       localStorage.setItem('userType', userType);
       localStorage.setItem('userData', JSON.stringify(loginResult.user || {}));
+      console.log('💾 토큰 저장 완료');
     }
 
     // 성공 메시지 후 이전 페이지로 이동
@@ -361,9 +398,20 @@ async function autoLogin(username, password, userType) {
   } catch (error) {
     console.error('❌ 자동 로그인 실패:', error);
     
-    // 자동 로그인 실패 시에도 회원가입은 성공했으므로 개인정보처리방침 페이지 표시
-    alert('회원가입은 완료되었지만 자동 로그인에 실패했습니다.\n수동으로 로그인해주세요.');
-    showPrivacyPage();
+    // 자동 로그인 실패 시 수동 로그인 안내
+    const tryManualLogin = confirm(
+      '회원가입은 완료되었지만 자동 로그인에 실패했습니다.\n' +
+      '로그인 페이지로 이동하여 수동으로 로그인하시겠습니까?'
+    );
+    
+    if (tryManualLogin) {
+      // 회원가입 정보를 세션에 저장해서 로그인 페이지에서 사용
+      sessionStorage.setItem('signupUsername', username);
+      window.location.href = '/login.html';
+    } else {
+      // 개인정보처리방침 페이지 표시
+      showPrivacyPage();
+    }
   }
 }
 

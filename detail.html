@@ -1,506 +1,590 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>상품 상세 정보</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../css/reset.css" />
     <link rel="stylesheet" href="../css/style.css" />
-</head>
-<body class="bg-gray-50">
+  </head>
+  <body class="bg-gray-50">
     <header id="header"></header>
 
     <!-- 로딩 스피너 -->
-    <div id="loading" class="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
-        <span class="ml-3 text-gray-600">상품 정보를 불러오는 중...</span>
+    <div
+      id="loading"
+      class="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50"
+    >
+      <div
+        class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"
+      ></div>
+      <span class="ml-3 text-gray-600">상품 정보를 불러오는 중...</span>
     </div>
 
     <!-- 메인 콘텐츠 -->
     <main class="max-w-6xl mx-auto px-4 py-8">
-        <!-- 상품 정보 섹션 -->
-        <section class="bg-white rounded-lg p-8 mb-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <!-- 상품 이미지 -->
-                <figure class="flex justify-center">
-                    <div class="w-full aspect-square max-w-[600px] overflow-hidden rounded-lg shadow-sm">
-                        <img
-                            id="productImage"
-                            src=""
-                            alt=""
-                            class="w-full h-full object-cover object-center"
-                        />
-                    </div>
-                </figure>
-
-                <!-- 상품 정보 -->
-                <article class="space-y-6">
-                    <!-- 판매자 정보 -->
-                    <section id="sellerInfo" class="text-sm text-gray-500">로딩 중...</section>
-
-                    <!-- 상품명 -->
-                    <h1 id="productName" class="text-2xl font-semibold text-gray-900">
-                        로딩 중...
-                    </h1>
-
-                    <!-- 가격 -->
-                    <section class="space-y-1">
-                        <div id="productPrice" class="text-3xl font-bold text-gray-900">
-                            <span class="text-lg font-normal">원</span>
-                        </div>
-                    </section>
-
-                    <!-- 배송 정보 -->
-                    <aside id="shippingInfo" class="text-sm text-gray-600">로딩 중...</aside>
-
-                    <!-- 수량 선택 -->
-                    <section class="space-y-2">
-                        <div class="flex items-center">
-                            <span class="text-sm text-gray-700 mr-4">수량</span>
-                            <div class="flex items-center border border-gray-300 rounded">
-                                <button
-                                    type="button"
-                                    class="px-3 py-2 text-gray-600 hover:bg-gray-100"
-                                    onclick="decreaseQuantity()"
-                                >
-                                    -
-                                </button>
-                                <input
-                                type="number"
-                                id="quantity"
-                                value="1"
-                                min="1"
-                                readonly
-                                class="w-16 text-center py-2 border-l border-r border-gray-300 bg-gray-100 cursor-default"
-                                />
-                                <button
-                                    type="button"
-                                    class="px-3 py-2 text-gray-600 hover:bg-gray-100"
-                                    onclick="increaseQuantity()"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 총 가격 정보 -->
-                    <section class="bg-gray-50 p-4 rounded-lg">
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-700">총 상품 금액</span>
-                            <div class="text-right">
-                                <div class="text-sm text-gray-500" id="totalQuantity">
-                                    총 수량 1개
-                                </div>
-                                <div class="text-2xl font-bold text-green-500" id="totalPrice">
-                                    0원
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 구매 버튼 -->
-                    <section class="flex space-x-3">
-                        <button
-                            class="flex-1 bg-green-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-600 transition-colors"
-                            onclick="handlePurchase()"
-                        >
-                            바로 구매
-                        </button>
-                        <button
-                            class="flex-1 bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
-                            onclick="handleCart()"
-                        >
-                            장바구니
-                        </button>
-                    </section>
-                </article>
+      <!-- 상품 정보 섹션 -->
+      <section class="bg-white rounded-lg p-8 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <!-- 상품 이미지 -->
+          <figure class="flex justify-center">
+            <div
+              class="w-full aspect-square max-w-[600px] overflow-hidden rounded-lg shadow-sm"
+            >
+              <img
+                id="productImage"
+                src=""
+                alt=""
+                class="w-full h-full object-cover object-center"
+              />
             </div>
-        </section>
+          </figure>
 
-        <!-- 상품 상세 탭 -->
-        <section class="bg-white rounded-lg">
-            <!-- 탭 메뉴 -->
-            <nav class="border-b">
-                <div class="flex justify-center">
-                    <button
-                        class="px-6 py-4 text-sm font-medium text-green-500 border-b-2 border-green-500 tab-btn active"
-                        data-tab="detail"
-                        onclick="switchTab('detail', this)"
-                    >
-                        상세
-                    </button>
-                    <button
-                        class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 tab-btn"
-                        data-tab="review"
-                        onclick="switchTab('review', this)"
-                    >
-                        리뷰
-                    </button>
-                    <button
-                        class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 tab-btn"
-                        data-tab="qna"
-                        onclick="switchTab('qna', this)"
-                    >
-                        Q&A
-                    </button>
-                    <button
-                        class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 tab-btn"
-                        data-tab="return"
-                        onclick="switchTab('return', this)"
-                    >
-                        반품/교환정보
-                    </button>
-                </div>
-            </nav>
-
-            <!-- 탭 콘텐츠 -->
-            <section class="p-8">
-                <article id="detail" class="tab-content">
-                    <section class="space-y-4">
-                        <h3 class="text-lg font-semibold">상품 상세 정보</h3>
-                        <div id="productDetail" class="text-gray-700">로딩 중...</div>
-                    </section>
-                </article>
-
-                <article id="review" class="tab-content hidden">
-                    <section class="space-y-4">
-                        <h3 class="text-lg font-semibold">상품 리뷰</h3>
-                        <p class="text-gray-700">상품 리뷰가 여기에 표시됩니다.</p>
-                    </section>
-                </article>
-
-                <article id="qna" class="tab-content hidden">
-                    <section class="space-y-4">
-                        <h3 class="text-lg font-semibold">상품 Q&A</h3>
-                        <p class="text-gray-700">상품 Q&A가 여기에 표시됩니다.</p>
-                    </section>
-                </article>
-
-                <article id="return" class="tab-content hidden">
-                    <section class="space-y-4">
-                        <h3 class="text-lg font-semibold">반품/교환 정보</h3>
-                        <p class="text-gray-700">반품/교환 정보가 여기에 표시됩니다.</p>
-                    </section>
-                </article>
+          <!-- 상품 정보 -->
+          <article class="space-y-6">
+            <!-- 판매자 정보 -->
+            <section id="sellerInfo" class="text-sm text-gray-500">
+              로딩 중...
             </section>
+
+            <!-- 상품명 -->
+            <h1 id="productName" class="text-2xl font-semibold text-gray-900">
+              로딩 중...
+            </h1>
+
+            <!-- 가격 -->
+            <section class="space-y-1">
+              <div id="productPrice" class="text-3xl font-bold text-gray-900">
+                <span class="text-lg font-normal">원</span>
+              </div>
+            </section>
+
+            <!-- 배송 정보 -->
+            <aside id="shippingInfo" class="text-sm text-gray-600">
+              로딩 중...
+            </aside>
+
+            <!-- 수량 선택 -->
+            <section class="space-y-2">
+              <div class="flex items-center">
+                <span class="text-sm text-gray-700 mr-4">수량</span>
+                <div class="flex items-center border border-gray-300 rounded">
+                  <button
+                    type="button"
+                    class="px-3 py-2 text-gray-600 hover:bg-gray-100"
+                    onclick="decreaseQuantity()"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    id="quantity"
+                    value="1"
+                    min="1"
+                    readonly
+                    class="w-16 text-center py-2 border-l border-r border-gray-300 bg-gray-100 cursor-default"
+                  />
+                  <button
+                    type="button"
+                    class="px-3 py-2 text-gray-600 hover:bg-gray-100"
+                    onclick="increaseQuantity()"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <!-- 총 가격 정보 -->
+            <section class="bg-gray-50 p-4 rounded-lg">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-700">총 상품 금액</span>
+                <div class="text-right">
+                  <div class="text-sm text-gray-500" id="totalQuantity">
+                    총 수량 1개
+                  </div>
+                  <div
+                    class="text-2xl font-bold text-green-500"
+                    id="totalPrice"
+                  >
+                    0원
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 구매 버튼 -->
+            <section class="flex space-x-3">
+              <button
+                class="flex-1 bg-green-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-600 transition-colors"
+                onclick="handlePurchase()"
+              >
+                바로 구매
+              </button>
+              <button
+                class="flex-1 bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+                onclick="handleCart()"
+              >
+                장바구니
+              </button>
+            </section>
+          </article>
+        </div>
+      </section>
+
+      <!-- 상품 상세 탭 -->
+      <section class="bg-white rounded-lg">
+        <!-- 탭 메뉴 -->
+        <nav class="border-b">
+          <div class="flex justify-center">
+            <button
+              class="px-6 py-4 text-sm font-medium text-green-500 border-b-2 border-green-500 tab-btn active"
+              data-tab="detail"
+              onclick="switchTab('detail', this)"
+            >
+              상세
+            </button>
+            <button
+              class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 tab-btn"
+              data-tab="review"
+              onclick="switchTab('review', this)"
+            >
+              리뷰
+            </button>
+            <button
+              class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 tab-btn"
+              data-tab="qna"
+              onclick="switchTab('qna', this)"
+            >
+              Q&A
+            </button>
+            <button
+              class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 tab-btn"
+              data-tab="return"
+              onclick="switchTab('return', this)"
+            >
+              반품/교환정보
+            </button>
+          </div>
+        </nav>
+
+        <!-- 탭 콘텐츠 -->
+        <section class="p-8">
+          <article id="detail" class="tab-content">
+            <section class="space-y-4">
+              <h3 class="text-lg font-semibold">상품 상세 정보</h3>
+              <div id="productDetail" class="text-gray-700">로딩 중...</div>
+            </section>
+          </article>
+
+          <article id="review" class="tab-content hidden">
+            <section class="space-y-4">
+              <h3 class="text-lg font-semibold">상품 리뷰</h3>
+              <p class="text-gray-700">상품 리뷰가 여기에 표시됩니다.</p>
+            </section>
+          </article>
+
+          <article id="qna" class="tab-content hidden">
+            <section class="space-y-4">
+              <h3 class="text-lg font-semibold">상품 Q&A</h3>
+              <p class="text-gray-700">상품 Q&A가 여기에 표시됩니다.</p>
+            </section>
+          </article>
+
+          <article id="return" class="tab-content hidden">
+            <section class="space-y-4">
+              <h3 class="text-lg font-semibold">반품/교환 정보</h3>
+              <p class="text-gray-700">반품/교환 정보가 여기에 표시됩니다.</p>
+            </section>
+          </article>
         </section>
+      </section>
     </main>
 
     <!-- 로그인 모달 -->
     <div
-        id="loginModal"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden"
+      id="loginModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden"
     >
-        <div class="bg-white rounded-lg p-8 max-w-sm w-full mx-4 relative">
-            <!-- 닫기 버튼 -->
+      <div class="bg-white rounded-lg p-8 max-w-sm w-full mx-4 relative">
+        <!-- 닫기 버튼 -->
+        <button
+          onclick="closeLoginModal()"
+          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+
+        <!-- 모달 내용 -->
+        <div class="text-center">
+          <h2 class="text-lg font-medium text-gray-900 mb-2">
+            로그인이 필요한 서비스입니다.
+          </h2>
+          <p class="text-gray-600 mb-8">로그인 하시겠습니까?</p>
+
+          <!-- 버튼들 -->
+          <div class="flex gap-3">
             <button
-                onclick="closeLoginModal()"
-                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+              onclick="closeLoginModal()"
+              class="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
             >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12"
-                    ></path>
-                </svg>
+              아니요
             </button>
-
-            <!-- 모달 내용 -->
-            <div class="text-center">
-                <h2 class="text-lg font-medium text-gray-900 mb-2">
-                    로그인이 필요한 서비스입니다.
-                </h2>
-                <p class="text-gray-600 mb-8">로그인 하시겠습니까?</p>
-
-                <!-- 버튼들 -->
-                <div class="flex gap-3">
-                    <button
-                        onclick="closeLoginModal()"
-                        class="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-                    >
-                        아니요
-                    </button>
-                    <button
-                        onclick="goToLogin()"
-                        class="flex-1 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
-                    >
-                        예
-                    </button>
-                </div>
-            </div>
+            <button
+              onclick="goToLogin()"
+              class="flex-1 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
+            >
+              예
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <script>
-        // 전역 변수
-        let isLoggedIn = false; // 로그인 상태
-        let unitPrice = 0; // 상품 단가
-        let currentProduct = null; // 현재 상품 정보
+      // 전역 변수
+      let isLoggedIn = false; // 로그인 상태
+      let unitPrice = 0; // 상품 단가
+      let currentProduct = null; // 현재 상품 정보
 
-        // wenivops API 사용 (수정된 버전)
-        async function fetchProductDetail() {
-            const baseUrl = 'https://api.wenivops.co.kr/services/open-market/';
-            const urlParams = new URLSearchParams(window.location.search);
-            const productID = urlParams.get('id');
-            
-            if (!productID) {
-                alert('잘못된 접근입니다.');
-                document.getElementById('loading').classList.add('hidden');
-                return;
-            }
+      // wenivops API 사용 (수정된 버전)
+      async function fetchProductDetail() {
+        const baseUrl = "https://api.wenivops.co.kr/services/open-market/";
+        const urlParams = new URLSearchParams(window.location.search);
+        const productID = urlParams.get("id");
 
-            try {
-                console.log('API 호출:', `${baseUrl}products/${productID}/`);
-                
-                // ✅ 수정: 단일 상품 API 엔드포인트 사용
-                const response = await fetch(`${baseUrl}products/${productID}/`);
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const product = await response.json();
-                console.log('API 응답:', product);
+        if (!productID) {
+          alert("잘못된 접근입니다.");
+          document.getElementById("loading").classList.add("hidden");
+          return;
+        }
 
-                // ✅ API 응답 구조에 맞게 데이터 주입
-                document.querySelector('#productName').textContent = product.name || '상품명 없음';
-                document.querySelector('#productPrice').innerHTML = `${(product.price || 0).toLocaleString()}<span class="text-lg font-normal">원</span>`;
-                document.querySelector('#totalPrice').textContent = `${(product.price || 0).toLocaleString()}원`;
-                document.querySelector('#totalQuantity').textContent = `총 수량 1개`;
-                document.querySelector('#productImage').src = product.image || '';
-                document.querySelector('#productImage').alt = product.name || '';
+        try {
+          console.log("API 호출:", `${baseUrl}products/${productID}/`);
 
-                // 판매자 정보
-                const sellerName = product.seller?.store_name || '판매자 정보 없음';
-                document.querySelector('#sellerInfo').textContent = sellerName;
+          // ✅ 수정: 단일 상품 API 엔드포인트 사용
+          const response = await fetch(`${baseUrl}products/${productID}/`);
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
 
-                // 배송 정보 (API 응답 구조에 맞게 수정)
-                const shippingText = product.shipping_method === "DELIVERY" ? "직접배송" : "택배배송";
-                const feeText = (product.shipping_fee || 0) === 0 ? "무료배송" : `${product.shipping_fee.toLocaleString()}원`;
-                document.querySelector('#shippingInfo').textContent = `${shippingText} / ${feeText}`;
+          const product = await response.json();
+          console.log("API 응답:", product);
 
-                // 상품 상세 정보
-                document.querySelector('#productDetail').innerHTML = product.info || '상품 상세 정보가 준비 중입니다.';
+          // ✅ API 응답 구조에 맞게 데이터 주입
+          document.querySelector("#productName").textContent =
+            product.name || "상품명 없음";
+          document.querySelector("#productPrice").innerHTML = `${(
+            product.price || 0
+          ).toLocaleString()}<span class="text-lg font-normal">원</span>`;
+          document.querySelector("#totalPrice").textContent = `${(
+            product.price || 0
+          ).toLocaleString()}원`;
+          document.querySelector("#totalQuantity").textContent = `총 수량 1개`;
+          document.querySelector("#productImage").src = product.image || "";
+          document.querySelector("#productImage").alt = product.name || "";
 
-                // 재고 정보 추가 표시 (선택사항)
-                if (product.stock !== undefined) {
-                    const stockInfo = product.stock > 0 ? `재고: ${product.stock}개` : '품절';
-                    document.querySelector('#shippingInfo').textContent += ` | ${stockInfo}`;
-                }
+          // 판매자 정보
+          const sellerName = product.seller?.store_name || "판매자 정보 없음";
+          document.querySelector("#sellerInfo").textContent = sellerName;
 
-                // 페이지 제목 변경
-                document.title = product.name || '상품 상세 정보';
+          // 배송 정보 (API 응답 구조에 맞게 수정)
+          const shippingText =
+            product.shipping_method === "DELIVERY" ? "직접배송" : "택배배송";
+          const feeText =
+            (product.shipping_fee || 0) === 0
+              ? "무료배송"
+              : `${product.shipping_fee.toLocaleString()}원`;
+          document.querySelector(
+            "#shippingInfo"
+          ).textContent = `${shippingText} / ${feeText}`;
 
-                // 수량 계산용 단가 저장
-                unitPrice = product.price || 0;
+          // 상품 상세 정보
+          document.querySelector("#productDetail").innerHTML =
+            product.info || "상품 상세 정보가 준비 중입니다.";
+
+          // 재고 정보 추가 표시 (선택사항)
+          if (product.stock !== undefined) {
+            const stockInfo =
+              product.stock > 0 ? `재고: ${product.stock}개` : "품절";
+            document.querySelector(
+              "#shippingInfo"
+            ).textContent += ` | ${stockInfo}`;
+          }
+
+          // 페이지 제목 변경
+          document.title = product.name || "상품 상세 정보";
+
+          // 수량 계산용 단가 저장
+          unitPrice = product.price || 0;
+          currentProduct = product;
+          updateTotalPrice();
+
+          // 로딩 스피너 제거
+          document.getElementById("loading").classList.add("hidden");
+        } catch (error) {
+          console.error("API 호출 실패:", error);
+
+          // 🔍 상품 목록에서 검색 시도 (대안)
+          try {
+            console.log("상품 목록에서 검색 시도...");
+            const listResponse = await fetch(`${baseUrl}products/`);
+            if (listResponse.ok) {
+              const listData = await listResponse.json();
+              console.log("상품 목록 응답:", listData);
+
+              // results 배열에서 해당 ID 상품 찾기
+              const product = listData.results?.find((p) => p.id == productID);
+              if (product) {
+                console.log("상품 목록에서 찾음:", product);
+
+                // 위와 동일한 UI 업데이트 로직
+                document.querySelector("#productName").textContent =
+                  product.name;
+                document.querySelector(
+                  "#productPrice"
+                ).innerHTML = `${product.price.toLocaleString()}<span class="text-lg font-normal">원</span>`;
+                document.querySelector(
+                  "#totalPrice"
+                ).textContent = `${product.price.toLocaleString()}원`;
+                document.querySelector("#productImage").src = product.image;
+                document.querySelector("#productImage").alt = product.name;
+                document.querySelector("#sellerInfo").textContent =
+                  product.seller?.store_name || "판매자 정보 없음";
+
+                const shippingText =
+                  product.shipping_method === "DELIVERY"
+                    ? "직접배송"
+                    : "택배배송";
+                const feeText =
+                  product.shipping_fee === 0
+                    ? "무료배송"
+                    : `${product.shipping_fee.toLocaleString()}원`;
+                const stockInfo =
+                  product.stock > 0 ? ` | 재고: ${product.stock}개` : " | 품절";
+                document.querySelector(
+                  "#shippingInfo"
+                ).textContent = `${shippingText} / ${feeText}${stockInfo}`;
+
+                document.querySelector("#productDetail").innerHTML =
+                  product.info;
+                document.title = product.name;
+
+                unitPrice = product.price;
                 currentProduct = product;
                 updateTotalPrice();
 
-                // 로딩 스피너 제거
-                document.getElementById('loading').classList.add('hidden');
-
-            } catch (error) {
-                console.error('API 호출 실패:', error);
-                
-                // 🔍 상품 목록에서 검색 시도 (대안)
-                try {
-                    console.log('상품 목록에서 검색 시도...');
-                    const listResponse = await fetch(`${baseUrl}products/`);
-                    if (listResponse.ok) {
-                        const listData = await listResponse.json();
-                        console.log('상품 목록 응답:', listData);
-                        
-                        // results 배열에서 해당 ID 상품 찾기
-                        const product = listData.results?.find(p => p.id == productID);
-                        if (product) {
-                            console.log('상품 목록에서 찾음:', product);
-                            
-                            // 위와 동일한 UI 업데이트 로직
-                            document.querySelector('#productName').textContent = product.name;
-                            document.querySelector('#productPrice').innerHTML = `${product.price.toLocaleString()}<span class="text-lg font-normal">원</span>`;
-                            document.querySelector('#totalPrice').textContent = `${product.price.toLocaleString()}원`;
-                            document.querySelector('#productImage').src = product.image;
-                            document.querySelector('#productImage').alt = product.name;
-                            document.querySelector('#sellerInfo').textContent = product.seller?.store_name || '판매자 정보 없음';
-                            
-                            const shippingText = product.shipping_method === "DELIVERY" ? "직접배송" : "택배배송";
-                            const feeText = product.shipping_fee === 0 ? "무료배송" : `${product.shipping_fee.toLocaleString()}원`;
-                            const stockInfo = product.stock > 0 ? ` | 재고: ${product.stock}개` : ' | 품절';
-                            document.querySelector('#shippingInfo').textContent = `${shippingText} / ${feeText}${stockInfo}`;
-                            
-                            document.querySelector('#productDetail').innerHTML = product.info;
-                            document.title = product.name;
-                            
-                            unitPrice = product.price;
-                            currentProduct = product;
-                            updateTotalPrice();
-                            
-                            document.getElementById('loading').classList.add('hidden');
-                            return;
-                        }
-                    }
-                } catch (listError) {
-                    console.error('상품 목록 검색도 실패:', listError);
-                }
-                
-                // 🚨 모든 API 실패 시 더미 데이터 표시
-                const dummyProduct = {
-                    name: "솜다람 도토리 키링",
-                    price: 17500,
-                    image: "https://via.placeholder.com/600x600/4ade80/ffffff?text=솜다람+도토리+키링",
-                    seller: { store_name: "솜다람잡화점" },
-                    shipping_method: "DELIVERY",
-                    shipping_fee: 0,
-                    info: "귀여운 솜다람 도토리 키링입니다. 부드러운 재질로 제작되었으며, 가방이나 열쇠에 달아 사용할 수 있습니다.",
-                    stock: 10
-                };
-
-                // 더미 데이터로 UI 업데이트
-                document.querySelector('#productName').textContent = dummyProduct.name;
-                document.querySelector('#productPrice').innerHTML = `${dummyProduct.price.toLocaleString()}<span class="text-lg font-normal">원</span>`;
-                document.querySelector('#totalPrice').textContent = `${dummyProduct.price.toLocaleString()}원`;
-                document.querySelector('#productImage').src = dummyProduct.image;
-                document.querySelector('#productImage').alt = dummyProduct.name;
-                document.querySelector('#sellerInfo').textContent = dummyProduct.seller.store_name;
-                document.querySelector('#shippingInfo').textContent = "직접배송 / 무료배송 | 재고: 10개";
-                document.querySelector('#productDetail').innerHTML = dummyProduct.info;
-                document.title = dummyProduct.name;
-
-                unitPrice = dummyProduct.price;
-                currentProduct = dummyProduct;
-                updateTotalPrice();
-
-                document.getElementById('loading').classList.add('hidden');
-                
-                alert(`API 연결 실패 (${error.message})\n샘플 데이터를 표시합니다.\n\n사용 가능한 상품 ID를 확인해주세요.`);
-            }
-        }
-
-        // 수량 증가
-        function increaseQuantity() {
-            const quantityInput = document.getElementById("quantity");
-            const currentValue = parseInt(quantityInput.value);
-            quantityInput.value = currentValue + 1;
-            updateTotalPrice();
-        }
-
-        // 수량 감소
-        function decreaseQuantity() {
-            const quantityInput = document.getElementById("quantity");
-            const currentValue = parseInt(quantityInput.value);
-            if (currentValue > 1) {
-                quantityInput.value = currentValue - 1;
-                updateTotalPrice();
-            }
-        }
-
-        // 총 가격 업데이트
-        function updateTotalPrice() {
-            const quantity = parseInt(document.getElementById("quantity").value);
-            const totalPrice = quantity * unitPrice;
-
-            document.getElementById("totalQuantity").textContent = `총 수량 ${quantity}개`;
-            document.getElementById("totalPrice").textContent = `${totalPrice.toLocaleString()}원`;
-        }
-
-        // 구매 처리
-        function handlePurchase() {
-            if (!isLoggedIn) {
-                showLoginModal();
+                document.getElementById("loading").classList.add("hidden");
                 return;
+              }
             }
-            
-            const quantity = parseInt(document.getElementById("quantity").value);
-            const totalPrice = quantity * unitPrice;
-            const productName = currentProduct?.product_name || currentProduct?.name || '상품';
-            
-            alert(`구매하실 상품: ${productName}\n수량: ${quantity}개\n총 금액: ${totalPrice.toLocaleString()}원`);
+          } catch (listError) {
+            console.error("상품 목록 검색도 실패:", listError);
+          }
+
+          // 🚨 모든 API 실패 시 더미 데이터 표시
+          const dummyProduct = {
+            name: "솜다람 도토리 키링",
+            price: 17500,
+            image:
+              "https://via.placeholder.com/600x600/4ade80/ffffff?text=솜다람+도토리+키링",
+            seller: { store_name: "솜다람잡화점" },
+            shipping_method: "DELIVERY",
+            shipping_fee: 0,
+            info: "귀여운 솜다람 도토리 키링입니다. 부드러운 재질로 제작되었으며, 가방이나 열쇠에 달아 사용할 수 있습니다.",
+            stock: 10,
+          };
+
+          // 더미 데이터로 UI 업데이트
+          document.querySelector("#productName").textContent =
+            dummyProduct.name;
+          document.querySelector(
+            "#productPrice"
+          ).innerHTML = `${dummyProduct.price.toLocaleString()}<span class="text-lg font-normal">원</span>`;
+          document.querySelector(
+            "#totalPrice"
+          ).textContent = `${dummyProduct.price.toLocaleString()}원`;
+          document.querySelector("#productImage").src = dummyProduct.image;
+          document.querySelector("#productImage").alt = dummyProduct.name;
+          document.querySelector("#sellerInfo").textContent =
+            dummyProduct.seller.store_name;
+          document.querySelector("#shippingInfo").textContent =
+            "직접배송 / 무료배송 | 재고: 10개";
+          document.querySelector("#productDetail").innerHTML =
+            dummyProduct.info;
+          document.title = dummyProduct.name;
+
+          unitPrice = dummyProduct.price;
+          currentProduct = dummyProduct;
+          updateTotalPrice();
+
+          document.getElementById("loading").classList.add("hidden");
+
+          alert(
+            `API 연결 실패 (${error.message})\n샘플 데이터를 표시합니다.\n\n사용 가능한 상품 ID를 확인해주세요.`
+          );
+        }
+      }
+
+      // 수량 증가
+      function increaseQuantity() {
+        const quantityInput = document.getElementById("quantity");
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+        updateTotalPrice();
+      }
+
+      // 수량 감소
+      function decreaseQuantity() {
+        const quantityInput = document.getElementById("quantity");
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+          updateTotalPrice();
+        }
+      }
+
+      // 총 가격 업데이트
+      function updateTotalPrice() {
+        const quantity = parseInt(document.getElementById("quantity").value);
+        const totalPrice = quantity * unitPrice;
+
+        document.getElementById(
+          "totalQuantity"
+        ).textContent = `총 수량 ${quantity}개`;
+        document.getElementById(
+          "totalPrice"
+        ).textContent = `${totalPrice.toLocaleString()}원`;
+      }
+
+      // 구매 처리
+      function handlePurchase() {
+        if (!isLoggedIn) {
+          showLoginModal();
+          return;
         }
 
-        // 장바구니 처리
-        function handleCart() {
-            if (!isLoggedIn) {
-                showLoginModal();
-                return;
-            }
-            
-            const quantity = parseInt(document.getElementById("quantity").value);
-            const productName = currentProduct?.product_name || currentProduct?.name || '상품';
-            
-            alert(`장바구니에 추가되었습니다.\n상품: ${productName}\n수량: ${quantity}개`);
+        const quantity = parseInt(document.getElementById("quantity").value);
+        const totalPrice = quantity * unitPrice;
+        const productName =
+          currentProduct?.product_name || currentProduct?.name || "상품";
+
+        alert(
+          `구매하실 상품: ${productName}\n수량: ${quantity}개\n총 금액: ${totalPrice.toLocaleString()}원`
+        );
+      }
+
+      // 장바구니 처리
+      function handleCart() {
+        if (!isLoggedIn) {
+          showLoginModal();
+          return;
         }
 
-        // 탭 전환
-        function switchTab(tabName, buttonElement) {
-            // 모든 탭 콘텐츠 숨기기
-            const tabContents = document.querySelectorAll(".tab-content");
-            tabContents.forEach((content) => content.classList.add("hidden"));
+        const quantity = parseInt(document.getElementById("quantity").value);
+        const productName =
+          currentProduct?.product_name || currentProduct?.name || "상품";
 
-            // 모든 탭 버튼 비활성화
-            const tabButtons = document.querySelectorAll(".tab-btn");
-            tabButtons.forEach((button) => {
-                button.classList.remove("text-green-500", "border-b-2", "border-green-500", "active");
-                button.classList.add("text-gray-500");
-            });
+        alert(
+          `장바구니에 추가되었습니다.\n상품: ${productName}\n수량: ${quantity}개`
+        );
+      }
 
-            // 선택된 탭 활성화
-            document.getElementById(tabName).classList.remove("hidden");
-            buttonElement.classList.remove("text-gray-500");
-            buttonElement.classList.add("text-green-500", "border-b-2", "border-green-500", "active");
-        }
+      // 탭 전환
+      function switchTab(tabName, buttonElement) {
+        // 모든 탭 콘텐츠 숨기기
+        const tabContents = document.querySelectorAll(".tab-content");
+        tabContents.forEach((content) => content.classList.add("hidden"));
 
-        // 로그인 모달 관련 함수들
-        function showLoginModal() {
-            document.getElementById("loginModal").classList.remove("hidden");
-        }
-
-        function closeLoginModal() {
-            document.getElementById("loginModal").classList.add("hidden");
-        }
-
-        function goToLogin() {
-            window.location.href = "/login";
-        }
-
-        // 이벤트 리스너 등록
-        document.addEventListener("DOMContentLoaded", function() {
-            // 상품 정보 로드
-            fetchProductDetail();
-
-            // 수량 입력 필드 변경 시 총 가격 업데이트
-            document.getElementById("quantity").addEventListener("input", updateTotalPrice);
-
-            // 모달 외부 클릭시 닫기
-            document.getElementById("loginModal").addEventListener("click", function(e) {
-                if (e.target === this) {
-                    closeLoginModal();
-                }
-            });
-
-            // ESC 키로 모달 닫기
-            document.addEventListener("keydown", function(e) {
-                if (e.key === "Escape" || e.keyCode === 27) {
-                    const modal = document.getElementById("loginModal");
-                    if (!modal.classList.contains("hidden")) {
-                        closeLoginModal();
-                    }
-                }
-            });
+        // 모든 탭 버튼 비활성화
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        tabButtons.forEach((button) => {
+          button.classList.remove(
+            "text-green-500",
+            "border-b-2",
+            "border-green-500",
+            "active"
+          );
+          button.classList.add("text-gray-500");
         });
 
-        // 헤더 로드 (옵션)
-        fetch("/header.html")
-            .then((response) => response.text())
-            .then((html) => {
-                document.getElementById("header").innerHTML = html;
-            })
-            .catch(() => {
-                console.log("헤더를 로드할 수 없습니다.");
-            });
+        // 선택된 탭 활성화
+        document.getElementById(tabName).classList.remove("hidden");
+        buttonElement.classList.remove("text-gray-500");
+        buttonElement.classList.add(
+          "text-green-500",
+          "border-b-2",
+          "border-green-500",
+          "active"
+        );
+      }
+
+      // 로그인 모달 관련 함수들
+      function showLoginModal() {
+        document.getElementById("loginModal").classList.remove("hidden");
+      }
+
+      function closeLoginModal() {
+        document.getElementById("loginModal").classList.add("hidden");
+      }
+
+      function goToLogin() {
+        window.location.href = "./login.html";
+      }
+
+      // 이벤트 리스너 등록
+      document.addEventListener("DOMContentLoaded", function () {
+        // 상품 정보 로드
+        fetchProductDetail();
+
+        // 수량 입력 필드 변경 시 총 가격 업데이트
+        document
+          .getElementById("quantity")
+          .addEventListener("input", updateTotalPrice);
+
+        // 모달 외부 클릭시 닫기
+        document
+          .getElementById("loginModal")
+          .addEventListener("click", function (e) {
+            if (e.target === this) {
+              closeLoginModal();
+            }
+          });
+
+        // ESC 키로 모달 닫기
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" || e.keyCode === 27) {
+            const modal = document.getElementById("loginModal");
+            if (!modal.classList.contains("hidden")) {
+              closeLoginModal();
+            }
+          }
+        });
+      });
+
+      // 헤더 로드 (옵션)
+      fetch("/header.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("header").innerHTML = html;
+        })
+        .catch(() => {
+          console.log("헤더를 로드할 수 없습니다.");
+        });
     </script>
-</body>
+  </body>
 </html>
