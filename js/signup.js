@@ -1,6 +1,7 @@
 // signup.js - 통합된 JavaScript 파일
 
-const baseUrl = 'https://api.wenivops.co.kr/';
+// const baseUrl = 'https://api.wenivops.co.kr/';
+const baseUrl = 'https://api.wenivops.co.kr/services/open-market/';
 
 // DOM 요소들
 let buyerForm, sellerForm, buyerButton, sellerButton;
@@ -9,8 +10,16 @@ let signupContainer, privacyContainer;
 // 유효성 검사 함수들
 const validation = {
   username: (value) => value.length >= 4 && value.length <= 20,
-  password: (value) => value.length >= 8 && /[a-z]/.test(value),
-  name: (value) => value.trim().length >= 2,
+  password: (value) => {
+    // 8자 이상, 영소문자 포함 체크
+    const hasMinLength = value.length >= 8;
+    const hasLowerCase = /[a-z]/.test(value);
+    return hasMinLength && hasLowerCase;
+  },
+  name: (value) => {
+    // 이름은 중복 가능, 2자 이상만 체크
+    return value.trim().length >= 2;
+  },
   phoneNumber: (phone) => /^010[0-9]{7,8}$/.test(phone.replace(/[^0-9]/g, ''))
 };
 
@@ -59,10 +68,10 @@ function showPrivacyPage() {
   privacyContainer.classList.remove('hidden');
 }
 
-// 회원가입 완료
+// 회원가입 완료 (개인정보처리방침 페이지에서 호출)
 function completeSignup() {
-  alert('HODU 회원가입이 완료되었습니다!\n로그인 페이지로 이동합니다.');
-  // window.location.href = '/login';
+  alert('HODU 회원가입이 완료되었습니다!\n이전 페이지로 돌아갑니다.');
+  goToPreviousPage();
 }
 
 // 버튼 상태 업데이트
@@ -123,10 +132,10 @@ function validateForm(form) {
     isValid = false;
   }
 
-  // 이름 검사
+  // 이름 검사 (중복 허용)
   const name = formData.get('name');
   if (!validation.name(name)) {
-    errors.push('이름을 2자 이상 입력해주세요.');
+    errors.push('이름을 2자 이상 입력해주세요. (이름은 중복 가능합니다)');
     isValid = false;
   }
 
@@ -174,7 +183,7 @@ function setupRealTimeValidation(form) {
           showError(input, '비밀번호가 일치하지 않습니다.');
         }
       } else if (input.name === 'name' && value && !validation.name(value)) {
-        showError(input, '이름은 2자 이상 입력해주세요.');
+        showError(input, '이름은 2자 이상 입력해주세요. (중복 가능)');
       }
     });
   });
@@ -286,7 +295,8 @@ async function submitSignup(formData, userType) {
     const result = await response.json();
     console.log('✅ 회원가입 성공:', result);
     
-    showPrivacyPage();
+    // 회원가입 성공 시 자동 로그인 시도
+    await autoLogin(data.username, data.password, userType);
     
   } catch (error) {
     console.error('❌ 회원가입 실패:', error);
@@ -308,6 +318,78 @@ async function submitSignup(formData, userType) {
     }
     
     alert(errorMessage);
+  }
+}
+
+// 자동 로그인 함수
+async function autoLogin(username, password, userType) {
+  try {
+    console.log('🔄 자동 로그인 시도 중...');
+    
+    const loginData = {
+      username: username,
+      password: password,
+      login_type: userType.toUpperCase() // 'BUYER' 또는 'SELLER'
+    };
+
+    const response = await fetch(`${baseUrl}accounts/login/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(loginData)
+    });
+
+    if (!response.ok) {
+      throw new Error('자동 로그인 실패');
+    }
+
+    const loginResult = await response.json();
+    console.log('✅ 자동 로그인 성공:', loginResult);
+
+    // 토큰 저장 (localStorage에 저장)
+    if (loginResult.token) {
+      localStorage.setItem('authToken', loginResult.token);
+      localStorage.setItem('userType', userType);
+      localStorage.setItem('userData', JSON.stringify(loginResult.user || {}));
+    }
+
+    // 성공 메시지 후 이전 페이지로 이동
+    alert('🎉 회원가입과 로그인이 완료되었습니다!\n이전 페이지로 돌아갑니다.');
+    
+    // 이전 페이지로 돌아가기
+    goToPreviousPage();
+
+  } catch (error) {
+    console.error('❌ 자동 로그인 실패:', error);
+    
+    // 자동 로그인 실패 시에도 회원가입은 성공했으므로 개인정보처리방침 페이지 표시
+    alert('회원가입은 완료되었지만 자동 로그인에 실패했습니다.\n수동으로 로그인해주세요.');
+    showPrivacyPage();
+  }
+}
+
+// 이전 페이지로 돌아가는 함수
+function goToPreviousPage() {
+  // URL 파라미터에서 이전 페이지 정보 확인
+  const urlParams = new URLSearchParams(window.location.search);
+  const returnUrl = urlParams.get('returnUrl');
+  
+  if (returnUrl) {
+    // returnUrl이 있으면 해당 페이지로 이동
+    window.location.href = decodeURIComponent(returnUrl);
+  } else if (document.referrer && !document.referrer.includes('/signup')) {
+    // referrer가 있고 회원가입 페이지가 아니면 이전 페이지로
+    window.history.back();
+  } else {
+    // 그 외의 경우 메인페이지로
+    window.location.href = '/';
+  }
+}
+
+// 페이지 로드 시 이전 페이지 정보 저장
+function saveReferrerInfo() {
+  // 이전 페이지 정보를 sessionStorage에 저장
+  if (document.referrer && !sessionStorage.getItem('signupReferrer')) {
+    sessionStorage.setItem('signupReferrer', document.referrer);
   }
 }
 
@@ -376,6 +458,9 @@ function setupFormValidation(form, button) {
 
 // 초기화
 document.addEventListener('DOMContentLoaded', function() {
+  // 이전 페이지 정보 저장
+  saveReferrerInfo();
+  
   // DOM 요소 참조
   buyerForm = document.getElementById('buyerForm');
   sellerForm = document.getElementById('sellerForm');
