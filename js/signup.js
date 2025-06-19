@@ -1,7 +1,5 @@
-// signup.js - 통합된 JavaScript 파일
+import { signup, checkUsername, tryLogin } from '../api/authApi.js';
 
-// const baseUrl = 'https://api.wenivops.co.kr/';
-const baseUrl = 'https://api.wenivops.co.kr/services/open-market/';
 
 // DOM 요소들
 let buyerForm, sellerForm, buyerButton, sellerButton;
@@ -280,23 +278,11 @@ async function submitSignup(formData, userType) {
   console.log('📤 전송할 데이터:', data);
 
   try {
-    const endpoint = userType === 'buyer' ? 'buyer/signup/' : 'seller/signup/';
-    const response = await fetch(`${baseUrl}accounts/${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
+      const result = await signup(data, userType);
+      console.log('✅ 회원가입 성공:', result);
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw error;
-    }
-
-    const result = await response.json();
-    console.log('✅ 회원가입 성공:', result);
-    
-    // 회원가입 성공 시 자동 로그인 시도
-    await autoLogin(data.username, data.password, userType);
+      // 회원가입 성공 시 자동 로그인 시도
+      await autoLogin(data.username, data.password, userType);
     
   } catch (error) {
     console.error('❌ 회원가입 실패:', error);
@@ -354,24 +340,18 @@ async function autoLogin(username, password, userType) {
     for (let i = 0; i < loginAttempts.length; i++) {
       console.log(`🔄 로그인 시도 ${i + 1}:`, loginAttempts[i]);
       
-      try {
-        const response = await fetch(`${baseUrl}accounts/login/`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(loginAttempts[i])
-        });
+      try 
+      {const { ok, result } = await tryLogin(loginAttempts[i]);
 
-        console.log(`📡 로그인 응답 ${i + 1}:`, response.status);
+if (ok) {
+  console.log('✅ 자동 로그인 성공:', result);
+  loginResult = result;
+  loginSuccess = true;
+  break;
+} else {
+  console.log(`❌ 로그인 시도 ${i + 1} 실패:`, result);
+}
 
-        if (response.ok) {
-          loginResult = await response.json();
-          console.log('✅ 자동 로그인 성공:', loginResult);
-          loginSuccess = true;
-          break;
-        } else {
-          const errorData = await response.json();
-          console.log(`❌ 로그인 시도 ${i + 1} 실패:`, errorData);
-        }
       } catch (error) {
         console.log(`🚨 로그인 시도 ${i + 1} 네트워크 오류:`, error);
       }

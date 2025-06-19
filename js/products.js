@@ -1,4 +1,4 @@
-    <!-- 메인페이지 상품 리스트 연동 -->
+// 메인페이지 상품 리스트 연동
 
       // 상품 API의 기본 URL 설정
       const baseUrl = "https://api.wenivops.co.kr/services/open-market/";
