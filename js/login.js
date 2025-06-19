@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // 로그인 처리
-import { login } from '../api/api.authApi';
+import { login } from '../api/authApi';
 
 async function handleLogin(userId, password, userType) {
   const urlParams = new URLSearchParams(window.location.search);
