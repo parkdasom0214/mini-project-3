@@ -30,22 +30,31 @@
 
     <footer id="footer"></footer>
 
-    <script>
-      // DOM이 완전히 로드된 후 실행
-      document.addEventListener("DOMContentLoaded", function () {
-        // 헤더 로드
-        fetch("./components/header.html")
-          .then((response) => response.text())
-          .then((html) => (document.getElementById("header").innerHTML = html));
+    <!-- ✅ 해결책 1: 헤더/푸터는 일반 스크립트, 나머지는 모듈 -->
+    <script src="./components/header.js"></script>
+    <script src="./components/footer.js"></script>
 
-        // 푸터 로드
-        fetch("./components/footer.html")
-          .then((response) => response.text())
-          .then((html) => (document.getElementById("footer").innerHTML = html));
-      });
-    </script>
-
+    <!-- 모듈들은 그대로 유지 -->
     <script type="module" src="./auth/auth.js"></script>
     <script type="module" src="./js/products.js"></script>
+
+    <!-- ✅ DOM 로드 후 실행 -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof initHeader === "function") {
+          initHeader("#header");
+          console.log("✅ 헤더 초기화");
+        } else {
+          console.error("❌ initHeader 함수 없음");
+        }
+
+        if (typeof initFooter === "function") {
+          initFooter("#footer");
+          console.log("✅ 푸터 초기화");
+        } else {
+          console.error("❌ initFooter 함수 없음");
+        }
+      });
+    </script>
   </body>
 </html>

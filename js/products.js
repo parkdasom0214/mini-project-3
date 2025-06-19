@@ -1,7 +1,7 @@
 // 메인페이지 상품 리스트 연동
 
       // 상품 API의 기본 URL 설정
-      import { fetchProductList } from '../api/productApi.js';
+      import { fetchProductList } from '../api/productsApi.js';
 
       
 // DOM이 완전히 로드된 후 실행
