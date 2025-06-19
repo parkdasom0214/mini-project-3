@@ -1,4 +1,4 @@
-import { signup, checkUsername, tryLogin } from '../api/authApi.js';
+import { checkUsername } from '../api/authApi.js';
 
 
 // DOM 요소들
@@ -81,8 +81,20 @@ function updateButtonState(form, button) {
   // 모든 필수 입력 필드 확인
   inputs.forEach(input => {
     if (input.type === 'checkbox') return;
-    if (!input.value.trim()) {
-      isValid = false;
+    
+    // 전화번호는 3개 필드 모두 입력되었는지 확인
+    if (input.name && input.name.includes('phone')) {
+      const phoneFirst = form.querySelector('input[name="phone_first"]')?.value || '';
+      const phoneMiddle = form.querySelector('input[name="phone_middle"]')?.value || '';
+      const phoneLast = form.querySelector('input[name="phone_last"]')?.value || '';
+      
+      if (!phoneFirst || !phoneMiddle || !phoneLast) {
+        isValid = false;
+      }
+    } else {
+      if (!input.value.trim()) {
+        isValid = false;
+      }
     }
   });
 
@@ -229,27 +241,6 @@ async function checkDuplicate(username, button) {
     } else {
       alert('사용 가능한 아이디입니다.');
     }
-
-    /* 
-    // 실제 중복확인 API가 있다면 이렇게 사용:
-    const response = await fetch(`${baseUrl}accounts/check-username/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: username })
-    });
-
-    const data = await response.json();
-    
-    if (response.ok) {
-      if (data.is_available) {
-        alert('사용 가능한 아이디입니다.');
-      } else {
-        alert('이미 사용중인 아이디입니다.');
-      }
-    } else {
-      throw new Error('중복 확인 실패');
-    }
-    */
     
   } catch (error) {
     console.error('중복 확인 오류:', error);
@@ -260,8 +251,8 @@ async function checkDuplicate(username, button) {
   }
 }
 
-// 회원가입 API 호출
-async function submitSignup(formData, userType) {
+// 회원가입 처리 (API 호출 없이 UI만 처리)
+function submitSignup(formData, userType) {
   const data = {
     username: formData.get('username'),
     password: formData.get('password'),
@@ -269,130 +260,13 @@ async function submitSignup(formData, userType) {
     phone_number: formData.get('phone_first') + formData.get('phone_middle') + formData.get('phone_last')
   };
 
-  // 판매자의 경우 추가 필드
-  if (userType === 'seller') {
-    data.business_number = formData.get('business_number');
-    data.store_name = formData.get('store_name');
-  }
+  console.log('📤 입력된 데이터:', data);
 
-  console.log('📤 전송할 데이터:', data);
-
-  try {
-      const result = await signup(data, userType);
-      console.log('✅ 회원가입 성공:', result);
-
-      // 회원가입 성공 시 자동 로그인 시도
-      await autoLogin(data.username, data.password, userType);
-    
-  } catch (error) {
-    console.error('❌ 회원가입 실패:', error);
-    
-    let errorMessage = '회원가입 중 오류가 발생했습니다.';
-    
-    if (error.username) {
-      errorMessage = `아이디 오류: ${error.username[0]}`;
-    } else if (error.password) {
-      errorMessage = `비밀번호 오류: ${error.password[0]}`;
-    } else if (error.name) {
-      errorMessage = `이름 오류: ${error.name[0]}`;
-    } else if (error.phone_number) {
-      errorMessage = `전화번호 오류: ${error.phone_number[0]}`;
-    } else if (error.business_number) {
-      errorMessage = `사업자등록번호 오류: ${error.business_number[0]}`;
-    } else if (error.store_name) {
-      errorMessage = `스토어명 오류: ${error.store_name[0]}`;
-    }
-    
-    alert(errorMessage);
-  }
-}
-
-// 자동 로그인 함수
-async function autoLogin(username, password, userType) {
-  try {
-    console.log('🔄 자동 로그인 시도 중...');
-    console.log('로그인 정보:', { username, userType });
-    
-    // 여러 가지 로그인 API 형식 시도
-    const loginAttempts = [
-      // 시도 1: login_type 필드 사용
-      {
-        username: username,
-        password: password,
-        login_type: userType.toUpperCase()
-      },
-      // 시도 2: user_type 필드 사용
-      {
-        username: username,
-        password: password,
-        user_type: userType.toUpperCase()
-      },
-      // 시도 3: 기본 로그인 (필드 없음)
-      {
-        username: username,
-        password: password
-      }
-    ];
-
-    let loginSuccess = false;
-    let loginResult = null;
-
-    for (let i = 0; i < loginAttempts.length; i++) {
-      console.log(`🔄 로그인 시도 ${i + 1}:`, loginAttempts[i]);
-      
-      try 
-      {const { ok, result } = await tryLogin(loginAttempts[i]);
-
-if (ok) {
-  console.log('✅ 자동 로그인 성공:', result);
-  loginResult = result;
-  loginSuccess = true;
-  break;
-} else {
-  console.log(`❌ 로그인 시도 ${i + 1} 실패:`, result);
-}
-
-      } catch (error) {
-        console.log(`🚨 로그인 시도 ${i + 1} 네트워크 오류:`, error);
-      }
-    }
-
-    if (!loginSuccess) {
-      throw new Error('모든 로그인 시도 실패');
-    }
-
-    // 토큰 저장 (localStorage에 저장)
-    if (loginResult.token) {
-      localStorage.setItem('authToken', loginResult.token);
-      localStorage.setItem('userType', userType);
-      localStorage.setItem('userData', JSON.stringify(loginResult.user || {}));
-      console.log('💾 토큰 저장 완료');
-    }
-
-    // 성공 메시지 후 이전 페이지로 이동
-    alert('🎉 회원가입과 로그인이 완료되었습니다!\n이전 페이지로 돌아갑니다.');
-    
-    // 이전 페이지로 돌아가기
-    goToPreviousPage();
-
-  } catch (error) {
-    console.error('❌ 자동 로그인 실패:', error);
-    
-    // 자동 로그인 실패 시 수동 로그인 안내
-    const tryManualLogin = confirm(
-      '회원가입은 완료되었지만 자동 로그인에 실패했습니다.\n' +
-      '로그인 페이지로 이동하여 수동으로 로그인하시겠습니까?'
-    );
-    
-    if (tryManualLogin) {
-      // 회원가입 정보를 세션에 저장해서 로그인 페이지에서 사용
-      sessionStorage.setItem('signupUsername', username);
-      window.location.href = '/login.html';
-    } else {
-      // 개인정보처리방침 페이지 표시
-      showPrivacyPage();
-    }
-  }
+  // API 호출 없이 바로 성공 처리
+  console.log('✅ 회원가입 완료 (UI 전용)');
+  
+  // 개인정보처리방침 페이지로 이동
+  showPrivacyPage();
 }
 
 // 이전 페이지로 돌아가는 함수
@@ -421,17 +295,6 @@ function saveReferrerInfo() {
   }
 }
 
-// 사업자등록번호 자동 포맷팅
-function formatBusinessNumber(input) {
-  let value = input.value.replace(/[^0-9]/g, '');
-  if (value.length >= 3 && value.length < 5) {
-    value = value.substring(0, 3) + '-' + value.substring(3);
-  } else if (value.length >= 5) {
-    value = value.substring(0, 3) + '-' + value.substring(3, 5) + '-' + value.substring(5, 10);
-  }
-  input.value = value;
-}
-
 // 폼 검증 및 이벤트 설정
 function setupFormValidation(form, button) {
   const inputs = form.querySelectorAll('input[required]');
@@ -455,14 +318,10 @@ function setupFormValidation(form, button) {
       if (input.value.trim()) {
         if (this.textContent.includes('중복확인')) {
           checkDuplicate(input.value, this);
-        } else if (this.textContent.includes('인증')) {
-          alert('사업자 등록번호 인증이 완료되었습니다.');
         }
       } else {
         if (this.textContent.includes('중복확인')) {
           alert('아이디를 입력해주세요.');
-        } else if (this.textContent.includes('인증')) {
-          alert('사업자 등록번호를 입력해주세요.');
         }
       }
     });
@@ -475,7 +334,7 @@ function setupFormValidation(form, button) {
     // 유효성 검사
     if (validateForm(this)) {
       const formData = new FormData(this);
-      const userType = this.id === 'buyerForm' ? 'buyer' : 'seller';
+      const userType = 'buyer'; // 구매자만 처리
       submitSignup(formData, userType);
     }
   });
@@ -509,19 +368,7 @@ document.addEventListener('DOMContentLoaded', function() {
     completeButton.addEventListener('click', completeSignup);
   }
 
-  // 두 폼 모두 설정
+  // 구매자 폼만 설정
   setupFormValidation(buyerForm, buyerButton);
-  setupFormValidation(sellerForm, sellerButton);
-
-  // 실시간 유효성 검사 설정
   setupRealTimeValidation(buyerForm);
-  setupRealTimeValidation(sellerForm);
-
-  // 사업자 등록번호 자동 하이픈 추가
-  const businessNumberInput = document.querySelector('#sellerForm input[name="business_number"]');
-  if (businessNumberInput) {
-    businessNumberInput.addEventListener('input', function(e) {
-      formatBusinessNumber(e.target);
-    });
-  }
 });

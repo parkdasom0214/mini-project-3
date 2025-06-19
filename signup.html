@@ -20,84 +20,23 @@
       id="signupContainer"
       class="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg"
     >
-      <!-- 개인정보처리방침 동의 페이지 -->
-      <div
-        id="privacyContainer"
-        class="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg hidden"
-      >
-        <div class="text-center mb-8">
-          <div
-            class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4"
-          >
-            <svg
-              class="w-8 h-8 text-green-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path>
-            </svg>
-          </div>
-          <h2 class="text-xl font-semibold text-gray-800 mb-2">
-            회원가입이 완료되었습니다!
-          </h2>
-        </div>
-
-        <div class="mb-8">
-          <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-            <div class="flex-shrink-0 mt-1">
-              <svg
-                class="w-5 h-5 text-green-500"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </div>
-            <p class="text-sm text-gray-700 leading-relaxed">
-              호두샵의
-              <span class="font-medium text-green-600">이용약관</span> 및
-              <span class="font-medium text-green-600">개인정보처리방침</span>에
-              대한 내용을 확인하였고 동의합니다.
-            </p>
-          </div>
-        </div>
-
-        <button
-          onclick="completeSignup()"
-          class="w-full py-4 bg-green-500 text-white text-base font-medium rounded-lg hover:bg-green-600 transition-colors duration-200"
-        >
-          가입하기
-        </button>
-      </div>
       <!-- 탭 메뉴 -->
       <div class="flex border border-gray-300 rounded-lg overflow-hidden mb-8">
         <button
           class="flex-1 py-4 px-6 text-sm font-medium bg-white text-gray-800 border-r border-gray-300 tab-btn active"
-          onclick="switchTab(this)"
           data-tab="buyer"
         >
           구매회원가입
         </button>
         <button
           class="flex-1 py-4 px-6 text-sm font-medium bg-gray-100 text-gray-600 tab-btn"
-          onclick="switchTab(this)"
           data-tab="seller"
         >
           판매회원가입
         </button>
       </div>
 
-      <!-- 구매회원 폼 - name 속성 추가 버전 -->
+      <!-- 구매회원 폼 -->
       <form id="buyerForm" class="space-y-6">
         <!-- 아이디 -->
         <div>
@@ -165,6 +104,7 @@
               <select
                 name="phone_first"
                 class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-3 pr-10 text-sm focus:outline-none focus:border-green-500 cursor-pointer min-w-[80px]"
+                required
               >
                 <option value="010">010</option>
                 <option value="011">011</option>
@@ -249,7 +189,7 @@
         </div>
       </form>
 
-      <!-- 판매회원 폼 - name 속성 추가 버전 -->
+      <!-- 판매회원 폼 -->
       <form id="sellerForm" class="space-y-6 hidden">
         <!-- 아이디 -->
         <div>
@@ -317,6 +257,7 @@
               <select
                 name="phone_first"
                 class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-3 pr-10 text-sm focus:outline-none focus:border-green-500 cursor-pointer min-w-[80px]"
+                required
               >
                 <option value="010">010</option>
                 <option value="011">011</option>
@@ -435,6 +376,66 @@
       </form>
     </div>
 
-    <script src="./js/signup.js"></script>
+    <!-- 개인정보처리방침 동의 페이지 (별도 컨테이너로 분리) -->
+    <div
+      id="privacyContainer"
+      class="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg hidden"
+    >
+      <div class="text-center mb-8">
+        <div
+          class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4"
+        >
+          <svg
+            class="w-8 h-8 text-green-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            ></path>
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">
+          회원가입이 완료되었습니다!
+        </h2>
+      </div>
+
+      <div class="mb-8">
+        <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+          <div class="flex-shrink-0 mt-1">
+            <svg
+              class="w-5 h-5 text-green-500"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <p class="text-sm text-gray-700 leading-relaxed">
+            호두샵의
+            <span class="font-medium text-green-600">이용약관</span> 및
+            <span class="font-medium text-green-600">개인정보처리방침</span>에
+            대한 내용을 확인하였고 동의합니다.
+          </p>
+        </div>
+      </div>
+
+      <button
+        id="completeButton"
+        class="w-full py-4 bg-green-500 text-white text-base font-medium rounded-lg hover:bg-green-600 transition-colors duration-200"
+      >
+        가입하기
+      </button>
+    </div>
+
+    <script type="module" src="./js/signup.js"></script>
   </body>
 </html>

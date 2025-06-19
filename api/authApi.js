@@ -23,6 +23,7 @@ export async function signup(data, userType) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
+    
   });
 
   const result = await res.json();
