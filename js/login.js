@@ -54,31 +54,27 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // 로그인 처리
-  async function handleLogin(userId, password, userType) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const redirectTo = urlParams.get('redirect') || '/';
+import { login } from '../api/api.authApi';
 
-    try {
-      const response = await fetch('https://api.wenivops.co.kr/services/open-market/accounts/login/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: userId, password: password })
-      });
+async function handleLogin(userId, password, userType) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectTo = urlParams.get('redirect') || '/';
 
-      const result = await response.json();
+  try {
+    const { ok, result } = await login(userId, password);  // ← API 호출만 남김
 
-      if (response.ok && result.access) {
-        localStorage.setItem('accessToken', result.access);
-        localStorage.setItem('refreshToken', result.refresh);
-        window.location.href = redirectTo;
-      } else {
-        showLoginError(result.message || '아이디 또는 비밀번호가 일치하지 않습니다.');
-      }
-    } catch (error) {
-      console.error('로그인 요청 실패:', error);
-      showLoginError('서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    if (ok && result.access) {
+      localStorage.setItem('accessToken', result.access);
+      localStorage.setItem('refreshToken', result.refresh);
+      window.location.href = redirectTo;
+    } else {
+      showLoginError(result.message || '아이디 또는 비밀번호가 일치하지 않습니다.');
     }
+  } catch (error) {
+    console.error('로그인 요청 실패:', error);
+    showLoginError('서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.');
   }
+}
 
   // 로그인 폼 제출
   loginForm.addEventListener('submit', function (e) {
