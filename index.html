@@ -34,18 +34,18 @@
       // DOM이 완전히 로드된 후 실행
       document.addEventListener("DOMContentLoaded", function () {
         // 헤더 로드
-        fetch("header.html")
+        fetch("./components/header.html")
           .then((response) => response.text())
           .then((html) => (document.getElementById("header").innerHTML = html));
 
         // 푸터 로드
-        fetch("footer.html")
+        fetch("./components/footer.html")
           .then((response) => response.text())
           .then((html) => (document.getElementById("footer").innerHTML = html));
       });
     </script>
 
-    <script src="auth.js"></script>
+    <script src="./auth/auth.js"></script>
     <script src="./js/products.js"></script>
   </body>
 </html>

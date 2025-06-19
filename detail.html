@@ -577,7 +577,7 @@
       });
 
       // 헤더 로드 (옵션)
-      fetch("/header.html")
+      fetch("./components/header.html")
         .then((response) => response.text())
         .then((html) => {
           document.getElementById("header").innerHTML = html;
@@ -586,5 +586,7 @@
           console.log("헤더를 로드할 수 없습니다.");
         });
     </script>
+
+    <script src="./auth/auth.js"></script>
   </body>
 </html>
