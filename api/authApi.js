@@ -1,6 +1,4 @@
-// ✅ API 기본 주소 설정
-const baseUrl = 'https://api.wenivops.co.kr/services/open-market/';
-
+import { BASE_URL } from './config.js';
 
 // ✅ 아이디 중복 확인 API
 // - username(아이디)을 받아 POST 요청으로 중복 여부 확인

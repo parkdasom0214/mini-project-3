@@ -1,3 +1,26 @@
+  // 로그인 처리
+import { login } from '../api/authApi';
+
+async function handleLogin(userId, password, userType) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectTo = urlParams.get('redirect') || '/';
+
+  try {
+    const { ok, result } = await login(userId, password);  // ← API 호출만 남김
+
+    if (ok && result.access) {
+      localStorage.setItem('accessToken', result.access);
+      localStorage.setItem('refreshToken', result.refresh);
+      window.location.href = redirectTo;
+    } else {
+      showLoginError(result.message || '아이디 또는 비밀번호가 일치하지 않습니다.');
+    }
+  } catch (error) {
+    console.error('로그인 요청 실패:', error);
+    showLoginError('서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.');
+  }
+}
+
 // DOM 로드 완료 후 실행
 document.addEventListener('DOMContentLoaded', function () {
   const tabs = document.querySelectorAll('.tab');
@@ -52,29 +75,6 @@ document.addEventListener('DOMContentLoaded', function () {
     userIdInput.classList.remove('error');
     passwordInput.classList.remove('error');
   }
-
-  // 로그인 처리
-import { login } from '../api/authApi';
-
-async function handleLogin(userId, password, userType) {
-  const urlParams = new URLSearchParams(window.location.search);
-  const redirectTo = urlParams.get('redirect') || '/';
-
-  try {
-    const { ok, result } = await login(userId, password);  // ← API 호출만 남김
-
-    if (ok && result.access) {
-      localStorage.setItem('accessToken', result.access);
-      localStorage.setItem('refreshToken', result.refresh);
-      window.location.href = redirectTo;
-    } else {
-      showLoginError(result.message || '아이디 또는 비밀번호가 일치하지 않습니다.');
-    }
-  } catch (error) {
-    console.error('로그인 요청 실패:', error);
-    showLoginError('서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.');
-  }
-}
 
   // 로그인 폼 제출
   loginForm.addEventListener('submit', function (e) {
