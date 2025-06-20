@@ -13,7 +13,6 @@ function createHeaderTemplate(options = {}) {
     loginUrl: `${getBasePath()}/login.html`,
     loginText: '마이페이지',
     loginIcon: `${getBasePath()}/images/icon-user.svg`,
-    ...options
   };
 
   return `
