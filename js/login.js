@@ -97,9 +97,18 @@ document.addEventListener('DOMContentLoaded', function () {
     try {
       const { success, user } = await login(userId, password);
 
-      if (success) {
-        window.location.href = redirectTo;
-      } else {
+console.log("✅ login API 응답 user:", user);
+
+if (success) {
+  // ✅ 로그인 상태 저장
+  localStorage.setItem('authToken', user.token);  // 또는 적절한 토큰 필드
+  localStorage.setItem('userData', JSON.stringify(user));
+  localStorage.setItem('userType', userType);
+
+  // ✅ 페이지 이동
+  window.location.href = redirectTo;
+}
+ else {
         showLoginError('아이디 또는 비밀번호가 일치하지 않습니다.');
       }
     } catch (error) {

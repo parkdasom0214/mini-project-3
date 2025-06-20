@@ -140,7 +140,7 @@ class Header {
     if (!loginLink) return;
 
     if (this.isLoggedIn && this.userData) {
-      // 로그인 상태
+      // ✅ 로그인 상태
       const userName = this.userData.name || this.userData.username || '사용자';
       loginLink.innerHTML = `
         <img src="${this.options.loginIcon || '/images/icon-user.png'}" alt="" />
@@ -149,15 +149,15 @@ class Header {
       loginLink.href = this.options.mypageUrl || './mypage.html';
       loginLink.title = '마이페이지';
     } else {
-      // 로그아웃 상태
+      // ✅ 로그아웃 상태
       loginLink.innerHTML = `
         <img src="${this.options.loginIcon || '/images/icon-user.png'}" alt="" />
-        ${this.options.loginText || '마이페이지'}
+        ${this.options.loginText || '로그인'}
       `;
-      loginLink.href = this.options.loginUrl || './login.html';
+      loginLink.href = this.options.loginUrl || '../login.html';
       loginLink.title = '로그인';
     }
-  }
+}
 
   // 로그인/마이페이지 클릭 이벤트 핸들러
   onLoginClick(event) {
