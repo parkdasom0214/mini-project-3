@@ -4,15 +4,15 @@
 function createHeaderTemplate(options = {}) {
   const config = {
     logoText: '호두 오픈마켓',
-    logoUrl: '../index.html',
+    logoUrl: `${getBasePath()}/index.html`,
     searchAction: '/search',
     searchPlaceholder: '상품을 검색해보세요',
     cartUrl: '#',
     cartText: '장바구니',
-    cartIcon: '/images/icon-shopping-cart.svg',
-    loginUrl: './login.html',
+    cartIcon: `${getBasePath()}/images/icon-shopping-cart.svg`,
+    loginUrl: `${getBasePath()}/login.html`,
     loginText: '마이페이지',
-    loginIcon: '/images/icon-user.svg',
+    loginIcon: `${getBasePath()}/images/icon-user.svg`,
     ...options
   };
 
@@ -466,4 +466,9 @@ if (typeof window !== 'undefined') {
   window.updateHeaderLoginStatus = updateHeaderLoginStatus;
   window.headerLogout = headerLogout;
   window.checkAutoLogin = checkAutoLogin;
+}
+
+function getBasePath() {
+  const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  return isLocal ? '' : '/mini-project-3';
 }
