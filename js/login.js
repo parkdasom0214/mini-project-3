@@ -1,28 +1,11 @@
-  // 로그인 처리
-import { login } from '../api/authApi';
+// 로그인 처리
+import { login } from '../api/authApi.js';
 
-async function handleLogin(userId, password, userType) {
-  const urlParams = new URLSearchParams(window.location.search);
-  const redirectTo = urlParams.get('redirect') || '/';
+console.log("✅ login.js 실행됨");
 
-  try {
-    const { success, user } = await login(userId, password);
-
-    if (success) {
-      // 토큰은 login 함수 안에서 저장되므로 여기서 또 저장할 필요 없음
-      window.location.href = redirectTo;
-    } else {
-      showLoginError('아이디 또는 비밀번호가 일치하지 않습니다.');
-    }
-  } catch (error) {
-    console.error('로그인 요청 실패:', error);
-    showLoginError('서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.');
-  }
-}
-
-
-// DOM 로드 완료 후 실행
 document.addEventListener('DOMContentLoaded', function () {
+  console.log("✅ DOM 완전히 로딩됨");
+
   const tabs = document.querySelectorAll('.tab');
   const userIdInput = document.getElementById('userId');
   const passwordInput = document.getElementById('password');
@@ -75,9 +58,11 @@ document.addEventListener('DOMContentLoaded', function () {
     passwordInput.classList.remove('error');
   }
 
-  // 로그인 폼 제출
+  // 로그인 시도
   loginForm.addEventListener('submit', function (e) {
     e.preventDefault();
+    console.log("📌 submit 이벤트 발생함");
+
     const userId = userIdInput.value.trim();
     const password = passwordInput.value.trim();
     const activeTab = document.querySelector('.tab.active').dataset.tab;
@@ -103,4 +88,23 @@ document.addEventListener('DOMContentLoaded', function () {
     input.addEventListener('input', clearLoginError);
     input.addEventListener('focus', clearLoginError);
   });
+
+  // 로그인 처리 함수
+  async function handleLogin(userId, password, userType) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectTo = urlParams.get('redirect') || '/';
+
+    try {
+      const { success, user } = await login(userId, password);
+
+      if (success) {
+        window.location.href = redirectTo;
+      } else {
+        showLoginError('아이디 또는 비밀번호가 일치하지 않습니다.');
+      }
+    } catch (error) {
+      console.error('로그인 요청 실패:', error);
+      showLoginError('서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
+  }
 });
