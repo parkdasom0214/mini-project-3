@@ -102,6 +102,44 @@ class ProductDetail {
       }
     });
 
+    // 수량 제한
+let maxStock = product.stock; // ✅ 상품 상세 API에서 받은 재고 수량
+const increaseBtn = document.getElementById("increaseBtn");
+const decreaseBtn = document.getElementById("decreaseBtn");
+const input = document.getElementById("quantity");
+
+increaseBtn?.addEventListener("click", () => {
+  if (input) {
+    const val = parseInt(input.value);
+    if (val < maxStock) {
+      input.value = val + 1;
+      this.updateTotalPrice();
+    }
+    // 버튼 상태 업데이트
+    toggleButtonState();
+  }
+});
+
+decreaseBtn?.addEventListener("click", () => {
+  if (input) {
+    const val = parseInt(input.value);
+    if (val > 1) {
+      input.value = val - 1;
+      this.updateTotalPrice();
+    }
+    // 버튼 상태 업데이트
+    toggleButtonState();
+  }
+});
+
+// 👉 버튼 비활성화 상태 업데이트 함수
+function toggleButtonState() {
+  const val = parseInt(input.value);
+  increaseBtn.disabled = val >= maxStock;
+  decreaseBtn.disabled = val <= 1;
+}
+
+
     // 구매/장바구니
     document.getElementById("purchaseBtn")?.addEventListener("click", () => {
       if (!this.isLoggedIn) {

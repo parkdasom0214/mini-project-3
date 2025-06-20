@@ -42,7 +42,7 @@ class ProductDetailAPI {
       id: 1,
       name: "샘플 상품",
       info: "샘플 상품 설명입니다.",
-      image: "https://via.placeholder.com/600x600/10b981/ffffff?text=Sample",
+      image: "../images/products1.png",
       price: 29900,
       shipping_method: "PARCEL",
       shipping_fee: 3000,

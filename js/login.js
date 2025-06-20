@@ -6,20 +6,20 @@ async function handleLogin(userId, password, userType) {
   const redirectTo = urlParams.get('redirect') || '/';
 
   try {
-    const { ok, result } = await login(userId, password);  // ← API 호출만 남김
+    const { success, user } = await login(userId, password);
 
-    if (ok && result.access) {
-      localStorage.setItem('accessToken', result.access);
-      localStorage.setItem('refreshToken', result.refresh);
+    if (success) {
+      // 토큰은 login 함수 안에서 저장되므로 여기서 또 저장할 필요 없음
       window.location.href = redirectTo;
     } else {
-      showLoginError(result.message || '아이디 또는 비밀번호가 일치하지 않습니다.');
+      showLoginError('아이디 또는 비밀번호가 일치하지 않습니다.');
     }
   } catch (error) {
     console.error('로그인 요청 실패:', error);
     showLoginError('서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.');
   }
 }
+
 
 // DOM 로드 완료 후 실행
 document.addEventListener('DOMContentLoaded', function () {
@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
       tabs.forEach(t => t.classList.remove('active'));
       this.classList.add('active');
       const tabType = this.dataset.tab;
-      loginForm.action = tabType === 'seller' ? '/seller/login' : '/buyer/login';
       clearLoginError();
     });
   });
