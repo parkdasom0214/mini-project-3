@@ -11,13 +11,13 @@ class ProductDetail {
   async init() {
     try {
       this.showLoading();
-      
+
       const result = await productDetailAPI.getProductDetail();
       if (!result) return;
 
       this.product = result.product;
       this.unitPrice = result.product.price;
-      
+
       this.render();
       this.bindEvents();
       this.hideLoading();
@@ -25,7 +25,6 @@ class ProductDetail {
       if (result.isDummy) {
         alert(`API 연결 실패\n샘플 데이터를 표시합니다.`);
       }
-      
     } catch (error) {
       console.error("초기화 실패:", error);
       this.hideLoading();
@@ -45,12 +44,15 @@ class ProductDetail {
   // 렌더링
   render() {
     const p = this.product;
-    
+
     // 기본 정보
     this.setText("#productName", p.name);
-    this.setHTML("#productPrice", `${p.price.toLocaleString()}<span class="text-lg font-normal">원</span>`);
+    this.setHTML(
+      "#productPrice",
+      `${p.price.toLocaleString()}<span class="text-lg font-normal">원</span>`
+    );
     this.setText("#sellerInfo", p.seller.store_name);
-    
+
     // 이미지
     const img = document.querySelector("#productImage");
     if (img) {
@@ -67,7 +69,7 @@ class ProductDetail {
     // 상세 정보
     this.setHTML("#productDetail", p.info);
     document.title = p.name;
-    
+
     this.updateTotalPrice();
   }
 
@@ -75,72 +77,47 @@ class ProductDetail {
   updateTotalPrice() {
     const quantity = parseInt(document.getElementById("quantity")?.value) || 1;
     const total = quantity * this.unitPrice;
-    
+
     this.setText("#totalQuantity", `총 수량 ${quantity}개`);
     this.setText("#totalPrice", `${total.toLocaleString()}원`);
   }
 
   // 이벤트 바인딩
   bindEvents() {
-    // 수량 조절
-    document.getElementById("increaseBtn")?.addEventListener("click", () => {
-      const input = document.getElementById("quantity");
-      if (input) {
-        input.value = parseInt(input.value) + 1;
+    if (!this.product) return;
+
+    const input = document.getElementById("quantity");
+    const increaseBtn = document.getElementById("increaseBtn");
+    const decreaseBtn = document.getElementById("decreaseBtn");
+    const maxStock = this.product.stock;
+
+    const toggleButtonState = () => {
+      const val = parseInt(input.value);
+      increaseBtn.disabled = val >= maxStock;
+      decreaseBtn.disabled = val <= 1;
+    };
+
+    increaseBtn?.addEventListener("click", () => {
+      const val = parseInt(input.value);
+      if (val < maxStock) {
+        input.value = val + 1;
         this.updateTotalPrice();
       }
+      toggleButtonState();
     });
 
-    document.getElementById("decreaseBtn")?.addEventListener("click", () => {
-      const input = document.getElementById("quantity");
-      if (input) {
-        const val = parseInt(input.value);
-        if (val > 1) {
-          input.value = val - 1;
-          this.updateTotalPrice();
-        }
+    decreaseBtn?.addEventListener("click", () => {
+      const val = parseInt(input.value);
+      if (val > 1) {
+        input.value = val - 1;
+        this.updateTotalPrice();
       }
+      toggleButtonState();
     });
 
-    // 수량 제한
-let maxStock = product.stock; // ✅ 상품 상세 API에서 받은 재고 수량
-const increaseBtn = document.getElementById("increaseBtn");
-const decreaseBtn = document.getElementById("decreaseBtn");
-const input = document.getElementById("quantity");
+    toggleButtonState(); // 페이지 로드 시 초기 상태 세팅
 
-increaseBtn?.addEventListener("click", () => {
-  if (input) {
-    const val = parseInt(input.value);
-    if (val < maxStock) {
-      input.value = val + 1;
-      this.updateTotalPrice();
-    }
-    // 버튼 상태 업데이트
-    toggleButtonState();
-  }
-});
-
-decreaseBtn?.addEventListener("click", () => {
-  if (input) {
-    const val = parseInt(input.value);
-    if (val > 1) {
-      input.value = val - 1;
-      this.updateTotalPrice();
-    }
-    // 버튼 상태 업데이트
-    toggleButtonState();
-  }
-});
-
-// 👉 버튼 비활성화 상태 업데이트 함수
-function toggleButtonState() {
-  const val = parseInt(input.value);
-  increaseBtn.disabled = val >= maxStock;
-  decreaseBtn.disabled = val <= 1;
-}
-
-
-    // 구매/장바구니
+    // 구매 버튼
     document.getElementById("purchaseBtn")?.addEventListener("click", () => {
       if (!this.isLoggedIn) {
         this.showLoginModal();
@@ -149,6 +126,7 @@ function toggleButtonState() {
       this.handlePurchase();
     });
 
+    // 장바구니 버튼
     document.getElementById("cartBtn")?.addEventListener("click", () => {
       if (!this.isLoggedIn) {
         this.showLoginModal();
@@ -157,14 +135,14 @@ function toggleButtonState() {
       this.handleCart();
     });
 
-    // 탭
-    document.querySelectorAll(".tab-btn").forEach(btn => {
+    // 탭 전환
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         this.switchTab(e.target.dataset.tab, e.target);
       });
     });
 
-    // 모달
+    // 로그인 모달
     document.getElementById("closeModalBtn")?.addEventListener("click", () => this.closeModal());
     document.getElementById("cancelLoginBtn")?.addEventListener("click", () => this.closeModal());
     document.getElementById("confirmLoginBtn")?.addEventListener("click", () => {
@@ -187,8 +165,8 @@ function toggleButtonState() {
 
   // 탭 전환
   switchTab(tabName, btn) {
-    document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
-    document.querySelectorAll(".tab-btn").forEach(el => {
+    document.querySelectorAll(".tab-content").forEach((el) => el.classList.add("hidden"));
+    document.querySelectorAll(".tab-btn").forEach((el) => {
       el.classList.remove("text-green-500", "border-b-2", "border-green-500");
       el.classList.add("text-gray-500");
     });

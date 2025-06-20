@@ -1,21 +1,25 @@
-import { autoLoginCheck } from '../utils/tokenStorage.js';
+import { checkLoginStatus } from '../utils/tokenStorage.js';
 import { fetchProductList } from '../api/productsApi.js';
 
-// DOM이 완전히 로드된 후 실행
 document.addEventListener('DOMContentLoaded', async () => {
-  // ✅ 로그인 상태 확인
-  const isLoggedIn = await autoLoginCheck();
+  const { isLoggedIn, user } = checkLoginStatus();
 
-  if (!isLoggedIn) {
-    alert('로그인이 필요합니다.');
-    window.location.href = '/login.html';
-    return; // 아래 코드 실행하지 않음
+  // 로그인 여부에 따른 버튼 처리 (존재할 때만)
+  const logoutBtn = document.getElementById('logout-button');
+  const loginBtn = document.getElementById('login-button');
+
+  if (isLoggedIn) {
+    console.log(`${user.username}님 환영합니다!`);
+    if (logoutBtn) logoutBtn.style.display = 'block';
+    if (loginBtn) loginBtn.style.display = 'none';
+  } else {
+    console.log('비로그인 사용자입니다.');
+    if (loginBtn) loginBtn.style.display = 'block';
+    if (logoutBtn) logoutBtn.style.display = 'none';
   }
 
-  // ✅ 로그인 상태면 상품 리스트 로딩 시작
   try {
     const data = await fetchProductList();
-
     const productList = document.querySelector("#product-list");
 
     if (!productList) {
@@ -46,7 +50,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       productList.appendChild(productCard);
     });
-
   } catch (error) {
     console.error("상품 불러오기 실패:", error);
   }
