@@ -347,7 +347,7 @@ class Header {
         <img src="${this.options.loginIcon || '/images/icon-user2.svg'}" alt="" />
         ${userName}님
       `;
-      loginLink.href = '#';
+      loginLink.href = 'javascript:void(0)';
       loginLink.title = '마이페이지';
       loginContainer.classList.add('logged-in');
     } else {
