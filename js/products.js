@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       productCard.addEventListener("click", function () {
         const productId = this.getAttribute("data-product-id");
-        window.location.href = `../detail.html?id=${productId}`;
+        window.location.href = `${getBasePath()}/detail.html?id=${productId}`;
       });
 
       productList.appendChild(productCard);
