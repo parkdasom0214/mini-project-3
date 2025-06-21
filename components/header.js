@@ -12,7 +12,7 @@ function createHeaderTemplate(options = {}) {
     cartIcon: `${getBasePath()}/images/icon-shopping-cart.svg`,
     loginUrl: `${getBasePath()}/login.html`,
     loginText: '마이페이지',
-    loginIcon: `${getBasePath()}/images/icon-user.svg?v=2`,
+    loginIcon: `${getBasePath()}/images/icon-user.svg`,
   };
 
   return `
@@ -309,11 +309,6 @@ class Header {
         this.onLogoClick(e);
       });
     }
-  }
-
-  // 검색 이벤트 핸들러
-  onSearch(query, event) {
-    console.log('검색:', query);
   }
 
   // 장바구니 클릭 이벤트 핸들러
