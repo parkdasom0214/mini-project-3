@@ -358,7 +358,7 @@ updateUserMenu() {
       <img src="${iconPath}" alt="" />
       ${this.options.loginText || '로그인'}
     `;
-    loginLink.href = this.options.loginUrl || '../login.html';
+    loginLink.href = this.options.loginUrl || `${getBasePath()}/login.html`;
     loginLink.title = '로그인';
     loginContainer.classList.remove('logged-in');
     this.hideDropdown();
