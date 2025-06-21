@@ -9,10 +9,10 @@ function createHeaderTemplate(options = {}) {
     searchPlaceholder: '상품을 검색해보세요',
     cartUrl: '#',
     cartText: '장바구니',
-    cartIcon: 'https://parkdasom0214.github.io/mini-project-3/images/icon-shopping-cart.svg',
+    cartIcon: `${getBasePath()}/images/icon-shopping-cart.svg`,
     loginUrl: `${getBasePath()}/login.html`,
     loginText: '마이페이지',
-    loginIcon: 'https://parkdasom0214.github.io/mini-project-3/images/icon-user.svg'
+    loginIcon: `${getBasePath()}/images/icon-user2.svg`,
   };
   
 
@@ -344,7 +344,7 @@ class Header {
       // 로그인 상태
       const userName = this.userData.name || this.userData.username || '사용자';
       loginLink.innerHTML = `
-        <img src="${this.options.loginIcon || '/images/icon-user.svg'}" alt="" />
+        <img src="${this.options.loginIcon || '/images/icon-user2.svg'}" alt="" />
         ${userName}님
       `;
       loginLink.href = '#';
@@ -353,7 +353,7 @@ class Header {
     } else {
       // 로그아웃 상태
       loginLink.innerHTML = `
-        <img src="${this.options.loginIcon || '/images/icon-user.svg'}" alt="" />
+        <img src="${this.options.loginIcon || '/images/icon-user2.svg'}" alt="" />
         ${this.options.loginText || '로그인'}
       `;
       loginLink.href = this.options.loginUrl || '../login.html';
