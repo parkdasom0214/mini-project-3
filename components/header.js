@@ -333,36 +333,38 @@ class Header {
     this.updateUserMenu();
   }
 
-  // 사용자 메뉴 업데이트
-  updateUserMenu() {
-    const loginLink = document.querySelector('.login');
-    const loginContainer = document.querySelector('.login-container');
-    
-    if (!loginLink || !loginContainer) return;
+// 사용자 메뉴 업데이트
+updateUserMenu() {
+  const loginLink = document.querySelector('.login');
+  const loginContainer = document.querySelector('.login-container');
+  
+  if (!loginLink || !loginContainer) return;
 
-    if (this.isLoggedIn && this.userData) {
-      // 로그인 상태
-      const userName = this.userData.name || this.userData.username || '사용자';
-      loginLink.innerHTML = `
-        <img src="${this.options.loginIcon || '/images/icon-user2.svg'}" alt="" />
-        ${userName}님
-      `;
-      loginLink.href = 'javascript:void(0)';
-      loginLink.title = '마이페이지';
-      loginContainer.classList.add('logged-in');
-    } else {
-      // 로그아웃 상태
-      loginLink.innerHTML = `
-        <img src="${this.options.loginIcon || '/images/icon-user2.svg'}" alt="" />
-        ${this.options.loginText || '로그인'}
-      `;
-      loginLink.href = this.options.loginUrl || '../login.html';
-      loginLink.title = '로그인';
-      loginContainer.classList.remove('logged-in');
-      this.hideDropdown();
-    }
-    this.bindDropdownEvents();
+  const iconPath = `${getBasePath()}/images/icon-user2.svg`; // 추가된 부분
+
+  if (this.isLoggedIn && this.userData) {
+    // 로그인 상태
+    const userName = this.userData.name || this.userData.username || '사용자';
+    loginLink.innerHTML = `
+      <img src="${iconPath}" alt="" />
+      ${userName}님
+    `;
+    loginLink.href = 'javascript:void(0)';
+    loginLink.title = '마이페이지';
+    loginContainer.classList.add('logged-in');
+  } else {
+    // 로그아웃 상태
+    loginLink.innerHTML = `
+      <img src="${iconPath}" alt="" />
+      ${this.options.loginText || '로그인'}
+    `;
+    loginLink.href = this.options.loginUrl || '../login.html';
+    loginLink.title = '로그인';
+    loginContainer.classList.remove('logged-in');
+    this.hideDropdown();
   }
+  this.bindDropdownEvents();
+}
 
   // 로그인/마이페이지 클릭 이벤트 핸들러
   onLoginClick(event) {
