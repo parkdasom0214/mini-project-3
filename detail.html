@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>상품 상세 정보</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./css/reset.css" />
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="${basePath}/css/reset.css" />
+    <link rel="stylesheet" href="${basePath}/css/style.css" />
   </head>
   <body class="bg-gray-50">
     <header id="header"></header>
@@ -253,8 +253,20 @@
 
     <footer id="footer"></footer>
 
-    <script type="module" src=".auth/auth.js"></script>
-    <script type="module" src="./js/productDetail.js"></script>
+    <script>
+      function getBasePath() {
+        const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+        return isLocal ? '.' : '/mini-project-3';
+      }
+      
+      const basePath = getBasePath();
+      
+      // 모듈 스크립트들 로드
+      document.head.insertAdjacentHTML('beforeend', `
+        <script type="module" src="${basePath}/auth/auth.js"></script>
+        <script type="module" src="${basePath}/js/productDetail.js"></script>
+      `);
+      </script>
 
     <!-- ✅ 해결책 1: 헤더/푸터는 일반 스크립트, 나머지는 모듈 -->
     <script src="./components/header.js"></script>
