@@ -9,12 +9,12 @@ function createHeaderTemplate(options = {}) {
     searchPlaceholder: '상품을 검색해보세요',
     cartUrl: '#',
     cartText: '장바구니',
-    cartIcon: `${getBasePath()}/images/icon-shopping-cart.svg`,
+    cartIcon: 'https://parkdasom0214.github.io/mini-project-3/images/icon-shopping-cart.svg',
     loginUrl: `${getBasePath()}/login.html`,
     loginText: '마이페이지',
     loginIcon: 'https://parkdasom0214.github.io/mini-project-3/images/icon-user.svg'
-
   };
+  
 
   return `
     <div class="container">
