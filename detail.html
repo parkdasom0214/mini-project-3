@@ -254,20 +254,23 @@
     <footer id="footer"></footer>
 
     <script>
+      // 환경 체크
       const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+      </script>
       
-      if (isLocal) {
-        // 로컬 환경 - 원래대로
-        document.head.insertAdjacentHTML('beforeend', `
-          <script type="module" src="./auth/auth.js"></script>
-          <script type="module" src="./js/productDetail.js"></script>
-        `);
-      } else {
-        // 배포 환경
-        document.head.insertAdjacentHTML('beforeend', `
-          <script type="module" src="/mini-project-3/auth/auth.js"></script>
-          <script type="module" src="/mini-project-3/js/productDetail.js"></script>
-        `);
+      <!-- 로컬 환경용 -->
+      <script>
+      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        document.write('<script type="module" src="./auth/auth.js"><\/script>');
+        document.write('<script type="module" src="./js/productDetail.js"><\/script>');
+      }
+      </script>
+      
+      <!-- 배포 환경용 -->
+      <script>
+      if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+        document.write('<script type="module" src="/mini-project-3/auth/auth.js"><\/script>');
+        document.write('<script type="module" src="/mini-project-3/js/productDetail.js"><\/script>');
       }
       </script>
 
