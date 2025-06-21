@@ -12,7 +12,8 @@ function createHeaderTemplate(options = {}) {
     cartIcon: `${getBasePath()}/images/icon-shopping-cart.svg`,
     loginUrl: `${getBasePath()}/login.html`,
     loginText: '마이페이지',
-    loginIcon: `${getBasePath()}/images/icon-user.svg`,
+    loginIcon: 'https://parkdasom0214.github.io/mini-project-3/images/icon-user.svg'
+
   };
 
   return `
