@@ -361,6 +361,7 @@ class Header {
       loginContainer.classList.remove('logged-in');
       this.hideDropdown();
     }
+    this.bindDropdownEvents();
   }
 
   // 로그인/마이페이지 클릭 이벤트 핸들러
