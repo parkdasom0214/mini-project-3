@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 로그인 처리 함수
   async function handleLogin(userId, password, userType) {
     const urlParams = new URLSearchParams(window.location.search);
-    const redirectTo = urlParams.get('redirect') || '/';
+    const redirectTo = urlParams.get('redirect') || '/mini-project-3/index.html';
 
     try {
       const { success, user } = await login(userId, password);
