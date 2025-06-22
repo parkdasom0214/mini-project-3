@@ -180,21 +180,36 @@ function setupRealTimeValidation(form) {
       updateButtonState(form, form.id === 'buyerForm' ? buyerButton : sellerButton);
     });
 
-    input.addEventListener('blur', () => {
-      const value = input.value.trim();
-      
-      if (input.name === 'username' && value && !validation.username(value)) {
-        showError(input, '아이디는 4-20자의 영문, 숫자만 사용 가능합니다.');
-      } else if (input.name === 'password' && value && !validation.password(value)) {
-        showError(input, '비밀번호는 8자 이상이며 영소문자를 포함해야 합니다.');
-      } else if (input.name === 'password_confirm' && value) {
-        const password = form.querySelector('input[name="password"]').value;
-        if (value !== password) {
-          showError(input, '비밀번호가 일치하지 않습니다.');
-        }
-      } else if (input.name === 'name' && value && !validation.name(value)) {
-        showError(input, '이름은 2자 이상 입력해주세요. (중복 가능)');
-      }
+input.addEventListener('blur', () => {
+  const value = input.value.trim();
+  
+  // 필수 입력 필드 중 비어있는 경우 처리
+  if (input.hasAttribute('required') && !value) {
+    if (input.name === 'username') {
+      showError(input, '필수 정보입니다');
+    } else if (input.name === 'password') {
+      showError(input, '필수 정보입니다');
+    } else if (input.name === 'password_confirm') {
+      showError(input, '필수 정보입니다');
+    } else if (input.name === 'name') {
+      showError(input, '필수 정보입니다');
+    }
+    return;
+  }
+  
+  // 값이 있을 때 유효성 검사
+  if (input.name === 'username' && value && !validation.username(value)) {
+    showError(input, '아이디는 4-20자의 영문, 숫자만 사용 가능합니다.');
+  } else if (input.name === 'password' && value && !validation.password(value)) {
+    showError(input, '비밀번호는 8자 이상이며 영소문자를 포함해야 합니다.');
+  } else if (input.name === 'password_confirm' && value) {
+    const password = form.querySelector('input[name="password"]').value;
+    if (value !== password) {
+      showError(input, '비밀번호가 일치하지 않습니다.');
+    }
+  } else if (input.name === 'name' && value && !validation.name(value)) {
+    showError(input, '이름은 2자 이상 입력해주세요. (중복 가능)');
+ }
     });
   });
 
