@@ -1,7 +1,7 @@
 /* 검색 영역 스타일 */
 header {
   position: relative;
-  background-color: #f55d5d;
+  background-color: #ffffff;
   height: 90px;        
   padding: 20px;
   top: 0;
@@ -12,7 +12,7 @@ header {
 /* form 요소 자체를 container처럼 활용 */
 .container {
   position: relative;
-  margin: 20px 17%; 
+  margin: 20px auto 0
 }
 
 .search-form {
@@ -51,7 +51,7 @@ header {
 }
 
 .user-menu a {
-  color: white;
+  color: rgb(34, 34, 34);
   text-decoration: none;
   font-weight: bold;
   display: flex;
@@ -81,7 +81,7 @@ header {
 /* 상단배너 */
 .top-banner {
   position: relative;
-  background-color: #fce3e6;   /* 배경색만 설정 */
+  background-color: #F2F2F2;   /* 배경색만 설정 */
   height: 500px;               /* 배너 높이 */
   margin-bottom: 50px;
 }

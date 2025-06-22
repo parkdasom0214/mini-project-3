@@ -4,6 +4,7 @@
 function createHeaderTemplate(options = {}) {
   const config = {
     logoText: '호두 오픈마켓',
+    logoImage: `${getBasePath()}/images/logo-hodu.png`,
     logoUrl: `${getBasePath()}/index.html`,
     searchAction: '/search',
     searchPlaceholder: '상품을 검색해보세요',
@@ -18,11 +19,13 @@ function createHeaderTemplate(options = {}) {
 
   return `
     <div class="container">
-      <h1><a href="${config.logoUrl}">${config.logoText}</a></h1>
+    <h1><a href="${config.logoUrl}"><img src="${config.logoImage}" alt="${config.logoText}" /></a></h1>
       <form action="${config.searchAction}" method="GET" role="search">
         <label for="search" class="visually-hidden">상품 검색</label>
         <input type="text" id="search" name="q" placeholder="${config.searchPlaceholder}" />
-        <button type="submit">검색</button>
+        <button type="submit">
+          <img src="./images/search.png" alt="검색" />
+        </button>
       </form>
       <nav class="user-menu">
         <a href="${config.cartUrl}" class="cart">
@@ -83,6 +86,72 @@ class Header {
     const style = document.createElement('style');
     style.id = 'dropdown-styles';
     style.textContent = `
+      /* 헤더 컨테이너 레이아웃 */
+      .container {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .container h1 {
+        flex-shrink: 0;
+      }
+
+      /* 검색창 스타일 - 여기부터 추가 */
+      form[role="search"] {
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex: 1;
+        max-width: 400px;
+      }
+
+      .user-menu {
+        flex-shrink: 0;
+        margin-left: auto;
+      }
+
+      #search {
+        width: 100%;
+        padding: 12px 50px 12px 20px;
+        border: 2px solid #21C55D;
+        border-radius: 50px;
+        font-size: 16px;
+        outline: none;
+        background: white;
+        color: #666;
+      }
+
+      #search::placeholder {
+        color: #21C55D;
+        font-weight: 400;
+      }
+
+      #search:focus {
+        border-color: #16A34A;
+        box-shadow: 0 0 0 3px rgba(33, 197, 93, 0.1);
+      }
+
+      form[role="search"] button {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background:none;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
       .login-container {
         position: relative;
         display: inline-block;
@@ -93,7 +162,7 @@ class Header {
         top: 100%;
         right: 0;
         background: white;
-        border: 1px solid #e0e0e0;
+        border: 1px solidrgb(56, 56, 56);
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         min-width: 150px;
