@@ -201,3 +201,8 @@ class ProductDetail {
 document.addEventListener("DOMContentLoaded", () => {
   new ProductDetail().init();
 });
+
+//로그인 모달 이동
+document.getElementById('confirmLoginBtn')?.addEventListener('click', () => {
+window.location.href = './login.html';
+});
