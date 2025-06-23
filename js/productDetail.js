@@ -204,5 +204,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //로그인 모달 이동
 document.getElementById('confirmLoginBtn')?.addEventListener('click', () => {
-window.location.href = './login.html';
+window.location.href = '/MINI-PROJECT-3/login.html';
 });
