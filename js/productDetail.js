@@ -146,7 +146,14 @@ class ProductDetail {
     document.getElementById("closeModalBtn")?.addEventListener("click", () => this.closeModal());
     document.getElementById("cancelLoginBtn")?.addEventListener("click", () => this.closeModal());
     document.getElementById("confirmLoginBtn")?.addEventListener("click", () => {
-      window.location.href = CONFIG.PAGES.LOGIN;
+    window.location.href = `${getBasePath()}login.html`;
+    
+      function getBasePath() {
+  return location.hostname === 'parkdasom0214.github.io' ? '/MINI-PROJECT-3/' : './';
+}
+
+
+
     });
   }
 
@@ -202,7 +209,3 @@ document.addEventListener("DOMContentLoaded", () => {
   new ProductDetail().init();
 });
 
-//로그인 모달 이동
-document.getElementById('confirmLoginBtn')?.addEventListener('click', () => {
-window.location.href = '/MINI-PROJECT-3/login.html';
-});
