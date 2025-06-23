@@ -93,7 +93,7 @@ class Header {
         gap: 30px;
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 20px 20px;
       }
 
       .container h1 {
@@ -112,6 +112,7 @@ class Header {
       .user-menu {
         flex-shrink: 0;
         margin-left: auto;
+                padding: 20px 20px;
       }
 
       #search {
